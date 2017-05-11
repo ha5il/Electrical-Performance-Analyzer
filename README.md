@@ -1,4 +1,4 @@
-#Electrical Performance Analyzer
+# Electrical Performance Analyzer
 
 **An Arduino UNO based project for data recording**
 
