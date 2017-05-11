@@ -1,0 +1,41 @@
+==> SD Card <==
+
+CS    D10  only pin that can be varied as per code
+SCK   D13
+MOSI  D11
+MISO  D12
+VCC   5V
+GND
+
+
+==> Vtg Sensor <==
+
+Output to Arduino
+
+VCC    A1  only pin that can be varied as per code
+GND
+
+Input to Sensing target (motor) upto 25V
+
+
+==> Temp Sensor <==
+
+VCC (Black)   5V
+Data (White)  A0
+GND
+
+
+==> Bluetooth <==
+
+Black     VCC
+White     Ground
+Grey      TX 1
+Purple    RX 0
+
+
+==> RTC <==
+
+5V         VCC
+GND        GND
+SCL        A5
+SDA        A4
