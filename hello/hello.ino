@@ -17,7 +17,7 @@ int ACSoffset = 2500;
 double Voltage = 0;
 double Amps = 0;
 
-int buzzer = 9;
+int buzzer = 5;
 int redLed = 4;
 int greenLed = 3;
 int yellowLed = 2;
@@ -40,19 +40,21 @@ void setup()
   Serial.begin(9600);
 
   //checking led and buzzer
+  for (int i = 1; i<3; i++)
+  {
   digitalWrite(redLed, HIGH);
-  delay(1000);
+  delay(250);
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, HIGH);
-  delay(1000);
+  delay(250);
   digitalWrite(greenLed, LOW);
   digitalWrite(yellowLed, HIGH);
-  delay(1000);
+  delay(250);
   digitalWrite(yellowLed, LOW);
   digitalWrite(buzzer, HIGH);
-  delay(10);
+  delay(25);
   digitalWrite(buzzer, LOW);
-
+  }
   initializeSD();
   if (SD.exists("data.csv"))
   {
