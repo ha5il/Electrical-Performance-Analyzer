@@ -99,9 +99,9 @@ void loop()
   RawValue = analogRead(analogIn);
   Voltage = (RawValue / 1024.0) * 5000; // Gets you mV
   Amps = ((Voltage - ACSoffset) / mVperAmp);
+  Amps = abs(Amps / 1000); //Current in milli and always positive
 
-
-  Serial.print("Supply Current :  ");
+  Serial.print("Current (mA)   :  ");
   Serial.println(Amps);
 
   createFile("data.csv");
@@ -125,10 +125,10 @@ void loop()
   file.println(rpm);
   closeFile();
 
-  Serial.print("Speed          :  ");
+  Serial.print("Speed (RPM)    :  ");
   rpm = (60000 / (elapsedTime - startTime));
   Serial.println(rpm);
-Serial.println();
+  Serial.println();
 
   delay(1000);
 }
@@ -169,7 +169,7 @@ int writeToFile(char text[])
 {
   if (file)
   {
-    //  file.println(text);
+    file.println(text);
     // Serial.println("Writing to file: ");
     //  Serial.println(text);
     return 1;
@@ -202,4 +202,3 @@ int openFile(char filename[])
     return 0;
   }
 }
-
