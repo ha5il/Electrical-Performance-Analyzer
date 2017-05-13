@@ -80,16 +80,15 @@ void loop()
   vout = (value * 5.0) / 1024.0;
   vin = vout / (R2 / (R1 + R2));
 
-  Serial.print("TEMPERATURE = ");
+  Serial.print("Temperature    :  ");
   Serial.print(cel);
-  Serial.print("*C");
-  Serial.println();
+  Serial.println("*C");
 
   createFile("data.csv");
   file.print(cel);
   closeFile();
 
-  Serial.print("INPUT V= ");
+  Serial.print("Supply Voltage :  ");
   Serial.println(vin);
 
   createFile("data.csv");
@@ -102,17 +101,12 @@ void loop()
   Amps = ((Voltage - ACSoffset) / mVperAmp);
 
 
-  Serial.print("Current =     ");
+  Serial.print("Supply Current :  ");
   Serial.println(Amps);
 
   createFile("data.csv");
   file.print(",");
   file.print(Amps);
-  closeFile();
-
-  createFile("data.csv");
-  file.print(",");
-  file.println("0");
   closeFile();
 
   digitalWrite(yellowLed, HIGH);
@@ -126,12 +120,15 @@ void loop()
   digitalWrite(yellowLed, LOW);
   elapsedTime = millis();
 
-  Serial.print("Time for single rotation: ");
-  Serial.println (elapsedTime - startTime);
+  createFile("data.csv");
+  file.print(",");
+  file.println(rpm);
+  closeFile();
 
-  Serial.print("RPM: ");
+  Serial.print("Speed          :  ");
   rpm = (60000 / (elapsedTime - startTime));
   Serial.println(rpm);
+Serial.println();
 
   delay(1000);
 }
