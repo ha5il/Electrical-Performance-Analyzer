@@ -80,15 +80,14 @@ void loop()
   vout = (value * 5.0) / 1024.0;
   vin = vout / (R2 / (R1 + R2));
 
-  Serial.print("Temperature    :  ");
-  Serial.print(cel);
-  Serial.println("*C");
+  Serial.print("Temperature *C     :  ");
+  Serial.println(cel);
 
   createFile("data.csv");
   file.print(cel);
   closeFile();
 
-  Serial.print("Supply Voltage :  ");
+  Serial.print("Supply Voltage (V) :  ");
   Serial.println(vin);
 
   createFile("data.csv");
@@ -99,9 +98,15 @@ void loop()
   RawValue = analogRead(analogIn);
   Voltage = (RawValue / 1024.0) * 5000; // Gets you mV
   Amps = ((Voltage - ACSoffset) / mVperAmp);
-  Amps = abs(Amps / 1000); //Current in milli and always positive
+  Amps = abs(Amps * 1000); //Current in milli and always positive
 
-  Serial.print("Current (mA)   :  ");
+  //Forcing current to be 0 if voltage is 0
+  if (vin == 0)
+  {
+    Amps = 0;
+  }
+  
+  Serial.print("Current (mA)       :  ");
   Serial.println(Amps);
 
   createFile("data.csv");
@@ -125,8 +130,15 @@ void loop()
   file.println(rpm);
   closeFile();
 
-  Serial.print("Speed (RPM)    :  ");
+  Serial.print("Speed (RPM)        :  ");
   rpm = (60000 / (elapsedTime - startTime));
+
+  // If motor doesn't rotate rpm is calculated as 6000
+  // so Forcing speed to be 0. Anyway max speed cant be above 1500 or 2000
+  if (rpm > 5000)
+  {
+    rpm = 0;
+  }
   Serial.println(rpm);
   Serial.println();
 
