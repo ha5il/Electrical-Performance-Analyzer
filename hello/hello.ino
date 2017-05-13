@@ -40,20 +40,20 @@ void setup()
   Serial.begin(9600);
 
   //checking led and buzzer
-  for (int i = 1; i<3; i++)
+  for (int i = 1; i < 3; i++)
   {
-  digitalWrite(redLed, HIGH);
-  delay(250);
-  digitalWrite(redLed, LOW);
-  digitalWrite(greenLed, HIGH);
-  delay(250);
-  digitalWrite(greenLed, LOW);
-  digitalWrite(yellowLed, HIGH);
-  delay(250);
-  digitalWrite(yellowLed, LOW);
-  digitalWrite(buzzer, HIGH);
-  delay(25);
-  digitalWrite(buzzer, LOW);
+    digitalWrite(redLed, HIGH);
+    delay(250);
+    digitalWrite(redLed, LOW);
+    digitalWrite(greenLed, HIGH);
+    delay(250);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(yellowLed, HIGH);
+    delay(250);
+    digitalWrite(yellowLed, LOW);
+    digitalWrite(buzzer, HIGH);
+    delay(25);
+    digitalWrite(buzzer, LOW);
   }
   initializeSD();
   if (SD.exists("data.csv"))
