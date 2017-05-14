@@ -68,12 +68,12 @@ void setup()
     digitalWrite(buzzer, LOW);
   }
   initializeSD();
-  /*CSV file should containd parameters on first line.
-    If no csv file exists we write the first line.    */
 
+  /*CSV file should contain parameters on first line.
+    If no csv file exists we write the first line.    */
   if (SD.exists("data.csv"))
   {
-
+    Serial.println("Old Data found on SD Card, Continuing with it");
   }
   else  {
     createFile("data.csv");
@@ -81,12 +81,13 @@ void setup()
     closeFile();
   }
 }
-/* The loop function runs always
-   Unless the Arduino is reset or restarted the setup doesn'r run  */
 
+/* The loop function runs always.
+   Unless the Arduino is reset or restarted,
+   the setup doesn'r run again               */
 void loop()
 {
-  for (i = 1; i < 3; i++)
+  for (i = 1; i < 3; i++)             //Double blink loop for hearbeat efect
   {
     digitalWrite(greenLed, HIGH);
     delay(1);                         //Green led turns ON only for a millisecord
@@ -95,9 +96,9 @@ void loop()
   }
 
   /* Now the Analog signals are read, processed, printed
-     serially (to USB or Bluetooth) and stored to SD    */
+     serially (to USB or Bluetooth) and stored to SD card */
 
-  //-----------Temperature-----------
+  //----------------------------------Temperature----------------------------------
   val = analogRead(tempPin);
   float mv = ( val / 1024.0) * 5000;
   float cel = mv / 10;
@@ -109,26 +110,26 @@ void loop()
   file.print(cel);
   closeFile();
 
-  //-----------Voltage-----------
+  //------------------------------------Voltage------------------------------------
   value = analogRead(analogInput);
   vout = (value * 5.0) / 1024.0;
   vin = vout / (R2 / (R1 + R2));
 
   //Removing offset reading. We will be at least using 1.2V battery
-    if (vin < 0.5)
+  if (vin < 0.5)
   {
     vin = 0;
   }
 
   Serial.print("Supply Voltage (V) :  ");
   Serial.println(vin);
-  
+
   createFile("data.csv");
   file.print(",");
   file.print(vin);
   closeFile();
 
-  //-----------Current-----------
+  //------------------------------------Current------------------------------------
   RawValue = analogRead(analogIn);
   Voltage = (RawValue / 1024.0) * 5000;   // Gets you mV
   Amps = ((Voltage - ACSoffset) / mVperAmp);
@@ -148,7 +149,7 @@ void loop()
   file.print(Amps);
   closeFile();
 
-  //-----------Speed-----------
+  //-------------------------------------Speed-------------------------------------
   /*As soosn as Arduino starts, a timer is also starts.
     millis() function returns milliseconds of this timer.
     This overflow (go back to zero), after approximately 50 days.*/
@@ -180,10 +181,13 @@ void loop()
   file.println(rpm);
   closeFile();
 
-  delay(1000);                               //Wait 1 second before taking another reading
-  //Decrease or Increase it as per the rate of readings desired
+  delay(1000);                               /*Wait 1 second before taking another reading
+                                               Decrease or Increase it as per the rate of readings desired*/
 }
 
+/*------------------------------------------------------------------------------------------------------
+  ------------------------------------------END OF PROGRAM----------------------------------------------
+  ------------------------------------------------------------------------------------------------------*/
 void initializeSD()
 {
   Serial.println("Initializing SD card...");
