@@ -1,34 +1,44 @@
 #include <SD.h>
 #include <SPI.h>
 
-int CS_PIN = 10;
+int CS_PIN = 10;               //Only pin that can be varied for sd module
+
+int tempPin = A0;              //Temperature sensor to Analog 0
 int val;
-int tempPin = A0;
-int analogInput = A1;
+
+int analogInput = A1;          //Voltage sensor to Analog 1
 float vout = 0.0;
 float vin = 0.0;
-float R1 = 30000.0;
-float R2 = 7500.0;
+float R1 = 30000.0;            //Two resistances on voltage sensor
+float R2 = 7500.0;             //Its actually an voltage divider circuit
 int value = 0;
-int analogIn = A3;
-int mVperAmp = 185; // use 100 for 20A Module and 66 for 30A Module
+
+int analogIn = A3;             //Current sensor to Analog 3
+int mVperAmp = 185;            // use 100 for 20A Module and 66 for 30A Module
 int RawValue = 0;
 int ACSoffset = 2500;
 double Voltage = 0;
 double Amps = 0;
 
-int buzzer = 5;
-int redLed = 4;
+int yellowLed = 2;             //Leds to Digital 2 3 and 4
 int greenLed = 3;
-int yellowLed = 2;
+int redLed = 4;
+int buzzer = 5;                //Buzzer to Digital 5
 
-int proxyPin = 8;
+int proxyPin = 8;              //Proximity sensor to Digital 8
 int proxyRaw = 0;
 unsigned long startTime = 0;
 unsigned long elapsedTime = 0;
 int rpm = 0;
-File file;
 
+int i;                         //Counter variable for loops
+File file;                     // 'file' is File data type (like i is int data type)
+
+/*
+   Setup runs only once when arduino starts.
+   All the initialization things has to be done here
+   like declaring input and output pins.
+*/
 void setup()
 {
   pinMode(analogInput, INPUT);
@@ -39,8 +49,10 @@ void setup()
   pinMode(yellowLed, OUTPUT);
   Serial.begin(9600);
 
-  //checking led and buzzer
-  for (int i = 1; i < 3; i++)
+  /* Checking if led and buzzer are
+     workng well. Everytime you reset
+     or restart this code runs once   */
+  for (i = 1; i < 3; i++)
   {
     digitalWrite(redLed, HIGH);
     delay(250);
@@ -56,6 +68,9 @@ void setup()
     digitalWrite(buzzer, LOW);
   }
   initializeSD();
+  /*CSV file should containd parameters on first line.
+    If no csv file exists we write the first line.    */
+
   if (SD.exists("data.csv"))
   {
 
@@ -66,19 +81,26 @@ void setup()
     closeFile();
   }
 }
+/* The loop function runs always
+   Unless the Arduino is reset or restarted the setup doesn'r run  */
+
 void loop()
 {
-  digitalWrite(greenLed, HIGH);
-  delay(1);
-  digitalWrite(greenLed, LOW);
+  for (i = 1; i < 3; i++)
+  {
+    digitalWrite(greenLed, HIGH);
+    delay(1);                         //Green led turns ON only for a millisecord
+    digitalWrite(greenLed, LOW);
+    delay(100);                       //Delay gives an heartbeat effect to Arduino
+  }
 
+  /* Now the Analog signals are read, processed, printed
+     serially (to USB or Bluetooth) and stored to SD    */
+
+  //-----------Temperature-----------
   val = analogRead(tempPin);
   float mv = ( val / 1024.0) * 5000;
   float cel = mv / 10;
-
-  value = analogRead(analogInput);
-  vout = (value * 5.0) / 1024.0;
-  vin = vout / (R2 / (R1 + R2));
 
   Serial.print("Temperature *C     :  ");
   Serial.println(cel);
@@ -87,25 +109,37 @@ void loop()
   file.print(cel);
   closeFile();
 
+  //-----------Voltage-----------
+  value = analogRead(analogInput);
+  vout = (value * 5.0) / 1024.0;
+  vin = vout / (R2 / (R1 + R2));
+
+  //Removing offset reading. We will be at least using 1.2V battery
+    if (vin < 0.5)
+  {
+    vin = 0;
+  }
+
   Serial.print("Supply Voltage (V) :  ");
   Serial.println(vin);
-
+  
   createFile("data.csv");
   file.print(",");
   file.print(vin);
   closeFile();
 
+  //-----------Current-----------
   RawValue = analogRead(analogIn);
-  Voltage = (RawValue / 1024.0) * 5000; // Gets you mV
+  Voltage = (RawValue / 1024.0) * 5000;   // Gets you mV
   Amps = ((Voltage - ACSoffset) / mVperAmp);
-  Amps = abs(Amps * 1000); //Current in milli and always positive
+  Amps = abs(Amps * 1000);                //Current in milli and always positive
 
-  //Forcing current to be 0 if voltage is 0
+  //Forcing current to be 0 if voltage is 0.5 or less. If not internal offset current is seen
   if (vin == 0)
   {
     Amps = 0;
   }
-  
+
   Serial.print("Current (mA)       :  ");
   Serial.println(Amps);
 
@@ -114,27 +148,26 @@ void loop()
   file.print(Amps);
   closeFile();
 
-  digitalWrite(yellowLed, HIGH);
-  while (digitalRead(proxyPin) == 0);
-  digitalWrite(yellowLed, LOW);
-  startTime = millis();
-  delay(10);
+  //-----------Speed-----------
+  /*As soosn as Arduino starts, a timer is also starts.
+    millis() function returns milliseconds of this timer.
+    This overflow (go back to zero), after approximately 50 days.*/
+  digitalWrite(yellowLed, HIGH);       //YellowLed ON
+  while (digitalRead(proxyPin) == 0);  //Wait until Proximity sensor senses metatl
+  digitalWrite(yellowLed, LOW);        //Metal is sensed so turn YellowLed OFF
+  startTime = millis();                //Record the current time of Arduino session
+  delay(10);                           //Wait 10ms so that fan blade moves away from sensor
 
   digitalWrite(yellowLed, HIGH);
   while (digitalRead(proxyPin) == 0);
   digitalWrite(yellowLed, LOW);
-  elapsedTime = millis();
-
-  createFile("data.csv");
-  file.print(",");
-  file.println(rpm);
-  closeFile();
+  elapsedTime = millis();              //Record the session time when metal is re-sensed
 
   Serial.print("Speed (RPM)        :  ");
-  rpm = (60000 / (elapsedTime - startTime));
+  rpm = (60000 / (elapsedTime - startTime));  //Unitary method: 1 rotation ----> x millisecond
 
-  // If motor doesn't rotate rpm is calculated as 6000
-  // so Forcing speed to be 0. Anyway max speed cant be above 1500 or 2000
+  /* If motor doesn't rotate rpm is calculated as 6000
+    // so Forcing speed to be 0. Anyway max speed cant be above 1500 or 2000 */
   if (rpm > 5000)
   {
     rpm = 0;
@@ -142,17 +175,23 @@ void loop()
   Serial.println(rpm);
   Serial.println();
 
-  delay(1000);
+  createFile("data.csv");
+  file.print(",");
+  file.println(rpm);
+  closeFile();
+
+  delay(1000);                               //Wait 1 second before taking another reading
+  //Decrease or Increase it as per the rate of readings desired
 }
 
 void initializeSD()
 {
   Serial.println("Initializing SD card...");
-  pinMode(CS_PIN, OUTPUT);
+  pinMode(CS_PIN, OUTPUT);                   // initializeSD is called from setup loop, so setting pin mode
 
   if (SD.begin())
   {
-    //  Serial.println("SD card is ready to use.");
+    //  Serial.println("SD card is ready to use.");  --> Uncomment while debugging
   } else
   {
     Serial.println("SD card initialization failed");
@@ -168,7 +207,7 @@ int createFile(char filename[])
 
   if (file)
   {
-    //  Serial.println("File created successfully.");
+    //  Serial.println("File created successfully.");  --> Uncomment this and like this while debugging
     return 1;
   } else
   {
