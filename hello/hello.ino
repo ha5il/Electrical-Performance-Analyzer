@@ -1,5 +1,5 @@
 #include <SD.h>
-#include <SPI.h>
+#include <SPI.h>               //Serial Peripheral Interface for SD card pins
 
 int CS_PIN = 10;               //Only pin that can be varied for sd module
 
