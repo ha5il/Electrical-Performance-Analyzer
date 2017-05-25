@@ -6,8 +6,7 @@
      <!-- <link href="/assets/logo.png" rel="shortcut icon"> -->
 	 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
-<link href="https://fonts.googleapis.com/css?family=Handlee" rel="stylesheet">
-      <style type="text/css" media="screen,projection" rel="stylesheet"> body {font-family: 'Handlee', cursive; } nav {background-color: #8E4585}</style>
+      <style type="text/css" media="screen,projection" rel="stylesheet"> nav {background-color: #8E4585}</style>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <title>Performance Analysis</title>
    </head>
@@ -33,32 +32,21 @@
 // Fetching the Standard Values
 include ($_SERVER['DOCUMENT_ROOT'] . '/project/hsl/data.php');
 
-// Calculating the maximum values as per tolerance value
-$temperature_max = (1 + $temperature_tol / 100) * $temperature;
-$voltage_max = (1 + $temperature_tol / 100) * $temperature;
-$current_max = (1 + $temperature_tol / 100) * $temperature;
-$speed_max = (1 + $temperature_tol / 100) * $temperature;
-// Calculating the minimum values as per tolerance value
-$temperature_min = (1 - $temperature_tol / 100) * $temperature;
-$voltage_min = (1 - $temperature_tol / 100) * $temperature;
-$current_min = (1 - $temperature_tol / 100) * $temperature;
-$speed_min = (1 - $temperature_tol / 100) * $temperature;
 // Main Program
 $row = 1;
+$skipCount=0;
+$errorCount=0;
 if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 {
  while (($data = fgetcsv($handle, ",")) !== FALSE)
  {
-  $num = count($data);
-  if ($num !== 4)
+  $num = count($data);					// Counting the number of data and it has to be 4
+  if ($num != 4)
   {
-   echo "<br />$num data found in line $row. These data are skipped during analysis... <br />";
-   for ($c = 0; $c < $num; $c++)
-   {
-    echo $data[$c] . "<br />";
-   }
+   $skipCount++;
+   $skippedRow[$skipCount] = $row;
    $row++;
-   continue;
+   continue; 
   }
   // Do the analysis as data is always 4
   if ($data[0] == 'Temperature')
@@ -69,43 +57,79 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
   // Checking Temperature
   if ($data[0] > $temperature_max)
   {
-   echo "High temperature $data[0] degree Celsius found on row $row <br />";
+ //  echo "High temperature $data[0] degree Celsius found on row $row <br />";
+   $t[$row] = 3;
   }
-  if ($data[0] < $temperature_min)
+   else if ($data[0] < $temperature_min)
   {
-   echo "Low temperature $data[0] degree Celsius found on row $row <br />";
+ //  echo "Low temperature $data[0] degree Celsius found on row $row <br />";
+   $t[$row] = 1;
   }
+  else
+  {
+   $t[$row] = 2;
+  }
+
+
   // Checking Voltage
   if ($data[1] > $voltage_max)
   {
-   echo "High voltage $data[1] V found on row $row <br />";
+ //  echo "High voltage $data[1] V found on row $row <br />";
+   $v[$row] = 3;
   }
-  if ($data[1] < $voltage_min)
+  else if ($data[1] < $voltage_min)
   {
-   echo "Low voltage $data[1] V found on row $row <br />";
+ //  echo "Low voltage $data[1] V found on row $row <br />";
+   $v[$row] = 1;
+  }
+    else
+  {
+   $v[$row] = 2;
   }
   // Checking Current
   if ($data[2] > $current_max)
   {
-   echo "High current $data[2] mA found on row $row <br />";
+ //  echo "High current $data[2] mA found on row $row <br />";
+   $c[$row] = 3;
   }
-  if ($data[2] < $current_min)
+  else if ($data[2] < $current_min)
   {
-   echo "Low current $data[2] mA found on row $row <br />";
+ //  echo "Low current $data[2] mA found on row $row <br />";
+   $c[$row] = 1;
   }
-  // Checking Speed
+    else
+  {
+   $c[$row] = 2;
+  }
+
+    // Checking Speed
   if ($data[3] > $speed_max)
   {
-   echo "High speed $data[3] RPM found on row $row <br />";
+ //  echo "High speed $data[3] RPM found on row $row <br />";
+   $s[$row] = 3;
   }
-  if ($data[3] < $speed_min)
+  else if ($data[3] < $speed_min)
   {
-   echo "Low speed $data[3] RPM found on row $row <br />";
+  // echo "Low speed $data[3] RPM found on row $row <br />";
+   $s[$row] = 1;
   }
+    else
+  {
+   $s[$row] = 2;
+  }
+ if ($t[$row] . $v[$row] . $c[$row] . $s[$row] != 2222)          // if all parameters aren't normal i.e., 2222
+ {
+   $errorCount++;
+   $errorRow [$errorCount] = $row;
+   $errors[$errorCount] = $t[$row] . $v[$row] . $c[$row] . $s[$row];
+ }
   $row++;
  }
  fclose($handle);
-}
+ 
+ // Including the data processor php
+include ($_SERVER['DOCUMENT_ROOT'] . '/project/hsl/process.php'); 
+ }
 else echo "DATA.CSV not found on the server";
 ?>
 </h5>
