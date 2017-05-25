@@ -84,7 +84,7 @@ void setup()
     createFile("data.csv");
     writeToFile("Temperature,Voltage,Current,Speed");
     closeFile();
-  } 
+  }
 }
 
 /* The loop function runs always.
@@ -107,11 +107,11 @@ void loop()
   //...............................FOR SMOOTHING.......................................
   rawDataToSmooth [index] = analogRead (tempPin);
   index++;
-  if (index >=10) index = 0;
-  val = (rawDataToSmooth[0]+rawDataToSmooth[1]+rawDataToSmooth[2]+rawDataToSmooth[3]+rawDataToSmooth[4]+rawDataToSmooth[5]+rawDataToSmooth[6]+rawDataToSmooth[7]+rawDataToSmooth[8]+rawDataToSmooth[9])/10;
-  
+  if (index >= 10) index = 0;
+  val = (rawDataToSmooth[0] + rawDataToSmooth[1] + rawDataToSmooth[2] + rawDataToSmooth[3] + rawDataToSmooth[4] + rawDataToSmooth[5] + rawDataToSmooth[6] + rawDataToSmooth[7] + rawDataToSmooth[8] + rawDataToSmooth[9]) / 10;
+
   //..................................................................................
-  
+
 
   float mv = ( val / 1024.0) * 5000;
   float cel = mv / 10;
@@ -167,13 +167,22 @@ void loop()
     millis() function returns milliseconds of this timer.
     This overflow (go back to zero), after approximately 50 days.*/
   digitalWrite(yellowLed, HIGH);       //YellowLed ON
-  while (digitalRead(proxyPin) == 0);  //Wait until Proximity sensor senses metatl
+  
+  startTime = millis();                //Its Loop in time for break, will be replaced once out of loop
+  while (digitalRead(proxyPin) == 0)  //Wait until Proximity sensor senses metatl
+  {
+    if (millis()-startTime >= 600) break; // for 600 ms speed is 100 RPM, considered as minimum speed
+  }
+  
   digitalWrite(yellowLed, LOW);        //Metal is sensed so turn YellowLed OFF
   startTime = millis();                //Record the current time of Arduino session
   delay(10);                           //Wait 10ms so that fan blade moves away from sensor
 
   digitalWrite(yellowLed, HIGH);
-  while (digitalRead(proxyPin) == 0);
+  while (digitalRead(proxyPin) == 0)
+  {
+    if (millis()-startTime >= 600) break;
+  }
   digitalWrite(yellowLed, LOW);
   elapsedTime = millis();              //Record the session time when metal is re-sensed
 
@@ -182,7 +191,7 @@ void loop()
 
   /* If motor doesn't rotate rpm is calculated as 6000
     // so Forcing speed to be 0. Anyway max speed cant be above 1500 or 2000 */
-  if (rpm > 5000)
+  if (rpm > 5000 || rpm < 102) // You get RPM less than 102, when motor isn't rotating. This is due to break command which takes 600 ms to operate
   {
     rpm = 0;
   }
