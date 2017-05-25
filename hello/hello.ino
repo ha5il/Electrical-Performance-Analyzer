@@ -34,6 +34,11 @@ int rpm = 0;
 int i;                         //Counter variable for loops
 File file;                     // 'file' is File data type (like i is int data type)
 
+//...............................FOR SMOOTHING.......................................
+int rawDataToSmooth [10] = {60, 60, 60, 60, 60, 60, 60, 60, 60, 60};
+int index = 0;
+//...................................................................................
+
 /*
    Setup runs only once when arduino starts.
    All the initialization things has to be done here
@@ -79,7 +84,7 @@ void setup()
     createFile("data.csv");
     writeToFile("Temperature,Voltage,Current,Speed");
     closeFile();
-  }
+  } 
 }
 
 /* The loop function runs always.
@@ -99,7 +104,15 @@ void loop()
      serially (to USB or Bluetooth) and stored to SD card */
 
   //----------------------------------Temperature----------------------------------
-  val = analogRead(tempPin);
+  //...............................FOR SMOOTHING.......................................
+  rawDataToSmooth [index] = analogRead (tempPin);
+  index++;
+  if (index >=10) index = 0;
+  val = (rawDataToSmooth[0]+rawDataToSmooth[1]+rawDataToSmooth[2]+rawDataToSmooth[3]+rawDataToSmooth[4]+rawDataToSmooth[5]+rawDataToSmooth[6]+rawDataToSmooth[7]+rawDataToSmooth[8]+rawDataToSmooth[9])/10;
+  
+  //..................................................................................
+  
+
   float mv = ( val / 1024.0) * 5000;
   float cel = mv / 10;
 
