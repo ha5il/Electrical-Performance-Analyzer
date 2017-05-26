@@ -1,6 +1,9 @@
 #include <SD.h>
 #include <SPI.h>               //Serial Peripheral Interface for SD card pins
 
+////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////
 int CS_PIN = 10;               //Only pin that can be varied for sd module
 
 int tempPin = A0;              //Temperature sensor to Analog 0
@@ -34,26 +37,8 @@ int rpm = 0;
 int i;                         //Counter variable for loops
 File file;                     // 'file' is File data type (like i is int data type)
 
-//...............................FOR SMOOTHING.......................................
-const int numReadings_temp = 10;
-int readings_temp[numReadings_temp];      // the readings from the analog input
-int readIndex_temp = 0;              // the index of the current reading
-int total_temp = 0;                  // the running total
-int average_temp = 0;                // the average
-
-const int numReadings_voltage = 10;
-int readings_voltage[numReadings_voltage];      // the readings from the analog input
-int readIndex_voltage = 0;              // the index of the current reading
-int total_voltage = 0;                  // the running total
-int average_voltage = 0;                // the average
-
-const int numReadings_current = 10;
-int readings_current[numReadings_current];      // the readings from the analog input
-int readIndex_current = 0;              // the index of the current reading
-int total_current = 0;                  // the running total
-int average_current = 0;                // the average
-//...................................................................................
-
+int rawTempDataToSmooth [10];      // For temperature
+int indexTemp = 0;                 // For temperature
 /*
    Setup runs only once when arduino starts.
    All the initialization things has to be done here
@@ -100,17 +85,7 @@ void setup()
     writeToFile("Temperature,Voltage,Current,Speed");
     closeFile();
   }
-//...............................FOR SMOOTHING.......................................
-  for (int thisReading_temp = 0; thisReading_temp < numReadings_temp; thisReading_temp++) {
-    readings_temp[thisReading_temp] = 0;
-  }
-    for (int thisReading_voltage = 0; thisReading_voltage < numReadings_voltage; thisReading_voltage++) {
-    readings_voltage[thisReading_voltage] = 0;
-  }
-    for (int thisReading_current = 0; thisReading_current < numReadings_current; thisReading_current++) {
-    readings_current[thisReading_current] = 0;
-  }
-//...................................................................................
+  initializeRawTempDatas(1);         // 1 --> Smoothing required; any int character if not required
 }
 
 /* The loop function runs always.
@@ -130,19 +105,11 @@ void loop()
      serially (to USB or Bluetooth) and stored to SD card */
 
   //----------------------------------Temperature----------------------------------
+  //...............................FOR SMOOTHING.......................................
 
-//...............................FOR SMOOTHING.......................................
-  total_temp = total_temp - readings_temp[readIndex_temp];
-  readings_temp[readIndex_temp] = analogRead(tempPin);
-  total_temp = total_temp + readings_temp[readIndex_temp];
-  readIndex_temp = readIndex_temp + 1;
-  if (readIndex_temp >= numReadings_temp) {
-    readIndex_temp = 0;
-  }
-  average_temp = total_temp / numReadings_temp;
-  //...................................................................................
+  //..................................................................................
 
-  val = average_temp;
+
   float mv = ( val / 1024.0) * 5000;
   float cel = mv / 10;
 
@@ -154,17 +121,7 @@ void loop()
   closeFile();
 
   //------------------------------------Voltage------------------------------------
-  //...............................FOR SMOOTHING.......................................
-  total_voltage = total_voltage - readings_voltage[readIndex_voltage];
-  readings_voltage[readIndex_voltage] = analogRead(analogInput);
-  total_voltage = total_voltage + readings_voltage[readIndex_voltage];
-  readIndex_voltage = readIndex_voltage + 1;
-  if (readIndex_voltage >= numReadings_voltage) {
-    readIndex_voltage = 0;
-  }
-  average_voltage = total_voltage / numReadings_voltage;
-  //...................................................................................
-  value = average_voltage;
+  value = analogRead(analogInput);
   vout = (value * 5.0) / 1024.0;
   vin = vout / (R2 / (R1 + R2));
 
@@ -183,17 +140,7 @@ void loop()
   closeFile();
 
   //------------------------------------Current------------------------------------
-  //...............................FOR SMOOTHING.......................................
-  total_current = total_current - readings_current[readIndex_current];
-  readings_current[readIndex_current] = analogRead(analogIn);
-  total_current = total_current + readings_current[readIndex_current];
-  readIndex_current = readIndex_current + 1;
-  if (readIndex_current >= numReadings_current) {
-    readIndex_current = 0;
-  }
-  average_current = total_current / numReadings_current;
-  //...................................................................................
-  RawValue = average_current;
+  RawValue = analogRead(analogIn);
   Voltage = (RawValue / 1024.0) * 5000;   // Gets you mV
   Amps = ((Voltage - ACSoffset) / mVperAmp);
   Amps = abs(Amps * 1000);                //Current in milli and always positive
@@ -217,13 +164,22 @@ void loop()
     millis() function returns milliseconds of this timer.
     This overflow (go back to zero), after approximately 50 days.*/
   digitalWrite(yellowLed, HIGH);       //YellowLed ON
-  while (digitalRead(proxyPin) == 0);  //Wait until Proximity sensor senses metatl
+
+  startTime = millis();                //Its Loop in time for break, will be replaced once out of loop
+  while (digitalRead(proxyPin) == 0)  //Wait until Proximity sensor senses metatl
+  {
+    if (millis() - startTime >= 600) break; // for 600 ms speed is 100 RPM, considered as minimum speed
+  }
+
   digitalWrite(yellowLed, LOW);        //Metal is sensed so turn YellowLed OFF
   startTime = millis();                //Record the current time of Arduino session
   delay(10);                           //Wait 10ms so that fan blade moves away from sensor
 
   digitalWrite(yellowLed, HIGH);
-  while (digitalRead(proxyPin) == 0);
+  while (digitalRead(proxyPin) == 0)
+  {
+    if (millis() - startTime >= 600) break;
+  }
   digitalWrite(yellowLed, LOW);
   elapsedTime = millis();              //Record the session time when metal is re-sensed
 
@@ -232,7 +188,7 @@ void loop()
 
   /* If motor doesn't rotate rpm is calculated as 6000
     // so Forcing speed to be 0. Anyway max speed cant be above 1500 or 2000 */
-  if (rpm > 5000)
+  if (rpm > 5000 || rpm < 102) // You get RPM less than 102, when motor isn't rotating. This is due to break command which takes 600 ms to operate
   {
     rpm = 0;
   }
@@ -318,5 +274,28 @@ int openFile(char filename[])
   {
     //  Serial.println("Error opening file...");
     return 0;
+  }
+}
+
+void initializeRawTempDatas(int required)
+{
+  if (required == 1)
+  {
+    {
+      for (i = 0; i < 10; i++)
+      {
+        rawTempDataToSmooth[i] = analogRead (tempPin);
+        Serial.println (rawTempDataToSmooth[i]);
+      }
+    }
+
+    rawTempDataToSmooth [indexTemp] = analogRead (tempPin);
+    indexTemp++;
+    if (indexTemp >= 10) indexTemp = 0;
+    val = (rawTempDataToSmooth[0] + rawTempDataToSmooth[1] + rawTempDataToSmooth[2] + rawTempDataToSmooth[3] + rawTempDataToSmooth[4] + rawTempDataToSmooth[5] + rawTempDataToSmooth[6] + rawTempDataToSmooth[7] + rawTempDataToSmooth[8] + rawTempDataToSmooth[9]) / 10;
+  }
+
+  else
+  {
   }
 }
