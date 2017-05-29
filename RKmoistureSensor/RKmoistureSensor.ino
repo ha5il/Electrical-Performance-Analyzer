@@ -1,21 +1,76 @@
-int sensorPin = A0;                         // Moisture Sensor location
-int led = 11;                               // Led connected pin
-int rawData;                                // Holds sensor value
+/*
+  If Sensor value is 1023 --> No moisture; turn on Red Led
+  If Sensor value is 0 --> High moisture; turn on everything
+*/
+
+// Declare Moisture Level
+int Lowest = 360;
+int Low = 410;
+int Normal = 615;
+int High = 820;
+int Heighest = 1024;
+
+int buzzer = 11;
+int greenLed = 2;
+int yellowLed1 = 4;
+int yellowLed2 = 7;
+int redLed = 8;
+int sensor = A0;
+int rawData = 0;
 
 void setup() {
-  pinMode(sensorPin, INPUT);
-  pinMode(led, OUTPUT);                     // Pins declared whether input or output
-  Serial.begin(9600);                       // Using 9600 baudrate to print on Arduino IDE for easier debugging
+  pinMode(buzzer, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  pinMode(yellowLed1, OUTPUT);
+  pinMode(yellowLed2, OUTPUT);
+  pinMode(redLed, OUTPUT);
+  pinMode(A0, INPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
-  rawData = analogRead(sensorPin);          // Get raw data from sensor
-  rawData = map (rawData, 1023, 0, 0, 255); /* Sensor shows 1023 when on no moisture
-                                               mapping 1023 from sensor as 0
-                                               and 0 from sensor as 255              */
-  Serial.println(rawData);                  // Printing to Arduino IDE console
-  analogWrite(led, rawData);                /* Compare with analogWrite(led, brightness)
-                                               0 = Min Illuminance i.e., OFF
-                                               255 = Max Illuminance                 */
-  delay(1000);                              // Wait a sec before starting another loop
+  rawData = analogRead(sensor);
+  Serial.println (rawData);
+  if (rawData < Lowest)
+  {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed2, HIGH);
+    digitalWrite(yellowLed1, HIGH);
+    digitalWrite(greenLed, HIGH);
+    digitalWrite(buzzer, HIGH);
+  }
+  else if (rawData < Low)
+  {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed2, HIGH);
+    digitalWrite(yellowLed1, HIGH);
+    digitalWrite(greenLed, HIGH);
+    digitalWrite(buzzer, LOW);
+  }
+  else if (rawData < Normal)
+  {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed2, HIGH);
+    digitalWrite(yellowLed1, HIGH);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+  else  if (rawData < High)
+  {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed2, HIGH);
+    digitalWrite(yellowLed1, LOW);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+  else  if (rawData < Heighest)
+  {
+    digitalWrite(redLed, HIGH);
+    digitalWrite(yellowLed2, LOW);
+    digitalWrite(yellowLed1, LOW);
+    digitalWrite(greenLed, LOW);
+    digitalWrite(buzzer, LOW);
+  }
+  delay (1000);
 }
+
