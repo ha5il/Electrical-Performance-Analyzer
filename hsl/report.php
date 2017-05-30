@@ -1,5 +1,5 @@
 <?php
-include ($_SERVER['DOCUMENT_ROOT'] . '/project/hsl/erroranalysis.php');
+include ($_SERVER['DOCUMENT_ROOT'] . '/performance-analysis/erroranalysis.php');
 /*
 if $skipCount > 0, then some rows have to be skipped
 the rows to skip are on array $skippedRow[]

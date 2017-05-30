@@ -6,7 +6,6 @@
 	 {
 	 echo ($skippedRow[$i] . "<br>");
 	 }
- }
- 
+ } 
   else echo ("<br><br>Non of the data from CSV file is skipped!");
  ?>

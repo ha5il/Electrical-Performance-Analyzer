@@ -1,6 +1,12 @@
 <?php
-include ($_SERVER['DOCUMENT_ROOT'] . '/project/hsl/data.php');
-
+$temperature_max = $_POST["mxtempr"];
+$voltage_max = $_POST["mxvtg"];
+$current_max = $_POST["mxcrt"];
+$speed_max = $_POST["mxspd"];
+$temperature_min = $_POST["mntempr"];
+$voltage_min = $_POST["mnvtg"];
+$current_min = $_POST["mncrt"];
+$speed_min = $_POST["mnspd"];
 function analysePerformance ($dataCode)
 {
 $eachCode  = array_map('intval', str_split($dataCode));
