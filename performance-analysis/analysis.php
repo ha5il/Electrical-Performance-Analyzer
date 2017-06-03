@@ -1,6 +1,8 @@
 <?php
-$row = 1;	   
+$row = 1;
+
 // Fetching the Standard Values
+
 $temperature_max = $_POST["mxtempr"];
 $voltage_max = $_POST["mxvtg"];
 $current_max = $_POST["mxcrt"];
@@ -11,117 +13,147 @@ $current_min = $_POST["mncrt"];
 $speed_min = $_POST["mnspd"];
 
 // Main Program
+
 $skipCount = 0;
 $errorCount = 0;
+
 if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 {
- while (($data = fgetcsv($handle, ",")) !== FALSE)
- {
-  $num = count($data);					// Counting the number of data and it has to be 5
-  if ($num != 5)
-  {
-   $skipCount++;
-   $skippedRow[$skipCount] = $row;
-   $row++;
-   continue; 
-  }
-  // Do the analysis as data is always 5
-  if ($data[0] == 'Time')
-  {
-   $row++;
-   continue;
-  }
-  // Recording Time
-  $time[$row] = $data[0];
-  
-  // Checking Temperature
-  if ($data[1] > $temperature_max)
-  {
-   $t[$row] = 3;
-  }
-   else if ($data[1] < $temperature_min)
-  {
-   $t[$row] = 1;
-  }
-  else
-  {
-   $t[$row] = 2;
-  }
+	while (($data = fgetcsv($handle, ",")) !== FALSE)
+	{
+		$num = count($data); // Counting the number of data and it has to be 5
+		if ($num != 5)
+		{
+			$skipCount++;
+			$skippedRow[$skipCount] = $row;
+			$row++;
+			continue;
+		}
 
+		// Do the analysis as data is always 5
 
-  // Checking Voltage
-  if ($data[2] > $voltage_max)
-  {
-   $v[$row] = 3;
-  }
-  else if ($data[2] < $voltage_min)
-  {
-   $v[$row] = 1;
-  }
-    else
-  {
-   $v[$row] = 2;
-  }
-  // Checking Current
-  if ($data[3] > $current_max)
-  {
-   $c[$row] = 3;
-  }
-  else if ($data[3] < $current_min)
-  {
-   $c[$row] = 1;
-  }
-    else
-  {
-   $c[$row] = 2;
-  }
+		if ($data[0] == 'Time')
+		{
+			$row++;
+			continue;
+		}
 
-    // Checking Speed
-  if ($data[4] > $speed_max)
-  {
-   $s[$row] = 3;
-  }
-  else if ($data[4] < $speed_min)
-  {
-   $s[$row] = 1;
-  }
-    else
-  {
-   $s[$row] = 2;
-  }
- if ($t[$row] . $v[$row] . $c[$row] . $s[$row] != 2222)          // if all parameters aren't normal i.e., 2222
- {
-   $errorCount++;
-   $errorTime [$errorCount] = $time[$row];
-   $errors[$errorCount] = $t[$row] . $v[$row] . $c[$row] . $s[$row];
- }
-  $row++;
- }
- fclose($handle);
-  }
- function tostring ($data)
-	 {
-		$splitted  = array_map('intval', str_split($data, 2));
-		if ($splitted[3] < 10) $splitted[3] = '0' . $splitted[3];
-		if ($splitted[4] < 10) $splitted[4] = '0' . $splitted[4];
-		if ($splitted[5] < 10) $splitted[5] = '0' . $splitted[5];
-		if ($splitted[6] < 10) $splitted[6] = '0' . $splitted[6]; // Converted to double digit
-	 return ("$splitted[3] " . tomonth($splitted[2]) . " $splitted[0]" . "$splitted[1]" . ' at ' . "$splitted[4]" . ':' . "$splitted[5]" . ":" . "$splitted[6]");
-	  }
-function tomonth ($mnth)
+		// Recording Time
+
+		$time[$row] = $data[0];
+
+		// Checking Temperature
+
+		if ($data[1] > $temperature_max)
+		{
+			$t[$row] = 3;
+		}
+		else
+		if ($data[1] < $temperature_min)
+		{
+			$t[$row] = 1;
+		}
+		else
+		{
+			$t[$row] = 2;
+		}
+
+		// Checking Voltage
+
+		if ($data[2] > $voltage_max)
+		{
+			$v[$row] = 3;
+		}
+		else
+		if ($data[2] < $voltage_min)
+		{
+			$v[$row] = 1;
+		}
+		else
+		{
+			$v[$row] = 2;
+		}
+
+		// Checking Current
+
+		if ($data[3] > $current_max)
+		{
+			$c[$row] = 3;
+		}
+		else
+		if ($data[3] < $current_min)
+		{
+			$c[$row] = 1;
+		}
+		else
+		{
+			$c[$row] = 2;
+		}
+
+		// Checking Speed
+
+		if ($data[4] > $speed_max)
+		{
+			$s[$row] = 3;
+		}
+		else
+		if ($data[4] < $speed_min)
+		{
+			$s[$row] = 1;
+		}
+		else
+		{
+			$s[$row] = 2;
+		}
+
+		if ($t[$row] . $v[$row] . $c[$row] . $s[$row] != 2222) // if all parameters aren't normal i.e., 2222
+		{
+			$errorCount++;
+			$errorTime[$errorCount] = $time[$row];
+			$errors[$errorCount] = $t[$row] . $v[$row] . $c[$row] . $s[$row];
+		}
+
+		$row++;
+	}
+
+	fclose($handle);
+}
+
+function tostring($data)
 {
-if ($mnth == 01) return January;
-else if ($mnth == 02) return 'February';
-else if ($mnth == 03) return 'March';
-else if ($mnth == 04) return 'April';
-else if ($mnth == 05) return 'May';
-else if ($mnth == 06) return 'June';
-else if ($mnth == 07) return 'July';
-else if ($mnth == 8) return 'August';
-else if ($mnth == 9) return 'September';
-else if ($mnth == 10) return 'Octuber';
-else if ($mnth == 11) return 'November';
-else if ($mnth == 12) return 'December';
+	$splitted = array_map('intval', str_split($data, 2));
+	if ($splitted[3] < 10) $splitted[3] = '0' . $splitted[3];
+	if ($splitted[4] < 10) $splitted[4] = '0' . $splitted[4];
+	if ($splitted[5] < 10) $splitted[5] = '0' . $splitted[5];
+	if ($splitted[6] < 10) $splitted[6] = '0' . $splitted[6]; // Converted to double digit
+	return ("$splitted[3] " . tomonth($splitted[2]) . " $splitted[0]" . "$splitted[1]" . ' at ' . "$splitted[4]" . ':' . "$splitted[5]" . ":" . "$splitted[6]");
+}
+
+function tomonth($mnth)
+{
+	if ($mnth == 01) return January;
+	else
+	if ($mnth == 02) return 'February';
+	else
+	if ($mnth == 03) return 'March';
+	else
+	if ($mnth == 04) return 'April';
+	else
+	if ($mnth == 05) return 'May';
+	else
+	if ($mnth == 06) return 'June';
+	else
+	if ($mnth == 07) return 'July';
+	else
+	if ($mnth == 8) return 'August';
+	else
+	if ($mnth == 9) return 'September';
+	else
+	if ($mnth == 10) return 'Octuber';
+	else
+	if ($mnth == 11) return 'November';
+	else
+	if ($mnth == 12) return 'December';
 }
 ?>
  
