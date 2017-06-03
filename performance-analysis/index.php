@@ -3,8 +3,9 @@
 <head>
 <meta content="text/html; charset=UTF-8"http-equiv=Content-Type>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport>
+    <meta name="theme-color" content="#8e4585">
 <link href=/assets/logo.png rel="shortcut icon">
-<link href=https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css rel=stylesheet>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 <style media=screen,projection rel=stylesheet>nav{background-color:#8e4585}</style>
 <meta content="width=device-width,initial-scale=1"name=viewport>
 <title>Select DATA.CSV for Analysis</title>
@@ -23,6 +24,7 @@
    </div>
 </nav>
 <div class=container style=text-align:center>
+<br><br><br><br>
 <h5>Select DATA.CSV obtained from SD card:</h5>
 <form action="upload.php" method="post" enctype="multipart/form-data">
     <div class="file-field input-field">
@@ -34,10 +36,34 @@
         <input class="file-path validate" type="text">
       </div>
     </div>
-<button class="btn waves-effect waves-red" type="submit" name="submit" value="Upload">Upload</button>
+	      <div class="row">
+        <div class="input-field col s6">
+          <input id="email" type="email" class="validate autocomplete" name="email" autocomplete="off">
+          <label for="email" data-error="Enter an valid Email address" data-success="Email looks fine">Email</label>
+		  </div>
+		  
+        <div class="input-field col s6">
+          <input id="password" type="password" class="validate" name="password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+<button class="btn waves-effect waves-red" type="submit" name="submit" value="Upload">Authenticate & Upload</button>
   </form>
 </div>
-<script src=https://code.jquery.com/jquery-2.1.1.min.js></script><script src=https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js></script>
-<script>$(".button-collapse").sideNav();</script>
+<script src=https://code.jquery.com/jquery-2.1.1.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js></script>
+<script>$(".button-collapse").sideNav();(function($) {
+  $(function() {
+    $("input.autocomplete").autocomplete({
+      data: {
+        'hasilpaudyal@gmail.com': null,
+        'neilroxtar94@gmail.com': null,
+        'lipikamitra2008@gmail.com': null,
+		'swethaanjali25@gmail.com': null
+      }
+    });
+  });
+})(jQuery);
+</script>
 </body>
 </html>
