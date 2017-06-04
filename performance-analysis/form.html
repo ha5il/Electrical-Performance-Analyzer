@@ -1,0 +1,44 @@
+<html>
+   <head>
+      <meta content="text/html; charset=UTF-8"http-equiv=Content-Type>
+      <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport>
+      <link href=/assets/logo.png rel="shortcut icon">
+      <link href=https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css rel=stylesheet>
+      <style media=screen,projection rel=stylesheet>nav{background-color:#8e4585}</style>
+      <meta content="width=device-width,initial-scale=1"name=viewport>
+      <title>Enter Analysis Limits</title>
+   </head>
+   <body>
+      <nav>
+         <div class=nav-wrapper>
+            <ul class="hide-on-med-and-down left">
+               <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse New Data!"><a href="/performance-analysis/">Electrical Performance Analysis</a></li>
+            </ul>
+            <ul class=side-nav id=slide-out>
+               <li><a href="/performance-analysis/">Analyse New Data</a></li>
+            </ul>
+            <a href=# class=button-collapse data-activates=slide-out><i class="fontsize mdi-navigation">Menu</i></a> 
+         </div>
+      </nav>
+      <div class=container style=text-align:center>
+         <h5>Hello <?php echo $user;?><br/>Enter the parameters for analysis<br/></h5>
+         <div class=row>
+            <form id="myform" action="analysis.php" class="col s12" method="post">
+               <div class=row>
+                  <div class="col input-field s6"><input id="mxtempr" name="mxtempr" type="text" value="45" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Temperature</label></div>
+                  <div class="col input-field s6"><input id="mntempr" name="mntempr" type="text" value="25" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Temperature</label></div>
+                  <div class="col input-field s6"><input id="mxvtg" name="mxvtg" type="text" value="1.5" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Voltage</label></div>
+                  <div class="col input-field s6"><input id="mnvtg" name="mnvtg" type="text" value="1.2" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Voltage</label></div>
+                  <div class="col input-field s6"><input id="mxcrt" name="mxcrt" type="text" value="200" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Current</label></div>
+                  <div class="col input-field s6"><input id="mncrt" name="mncrt" type="text" value="100" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Current</label></div>
+                  <div class="col input-field s6"><input id="mxspd" name="mxspd" type="text" value="1100" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Speed</label></div>
+                  <div class="col input-field s6"><input id="mnspd" name="mnspd" type="text" value="900" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Speed</label></div>
+               </div>
+               <button class="btn green waves-effect waves-red" type="submit">Analyse</button> 
+            </form>
+            <button class="btn blue waves-effect waves-green" onClick="loadDefault()">Reset to Default</button><button class="btn red waves-effect waves-yellow" onClick="eraseDefault()">Erase All</button> 
+         </div>
+      </div>
+      <script src=https://code.jquery.com/jquery-2.1.1.min.js></script> <script src=https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js></script> <script>$(".button-collapse").sideNav();$("#myform").submit(function(){if (parseFloat(document.getElementById("mxtempr").value) < parseFloat(document.getElementById("mntempr").value)){alert("Max Temperature has to be greater than Min Temperature"); return false;}if (parseFloat(document.getElementById("mxvtg").value) < parseFloat(document.getElementById("mnvtg").value)){alert("Max Voltage has to be greater than Min Voltage"); return false;}if (parseFloat(document.getElementById("mxcrt").value) < parseFloat(document.getElementById("mncrt").value)){alert("Max Current has to be greater than Min Current"); return false;}if (parseFloat(document.getElementById("mxspd").value) < parseFloat(document.getElementById("mnspd").value)){alert("Max Speed has to be greater than Min Speed"); return false;}else{return true;}});function loadDefault (){document.getElementById('mxtempr').value='45';document.getElementById('mntempr').value='25';document.getElementById('mxvtg').value='1.5';document.getElementById('mnvtg').value='1.2';document.getElementById('mxcrt').value='200';document.getElementById('mncrt').value='100';document.getElementById('mxspd').value='1100';document.getElementById('mnspd').value='900';}function eraseDefault (){document.getElementById('mxtempr').value=null;document.getElementById('mntempr').value=null;document.getElementById('mxvtg').value=null;document.getElementById('mnvtg').value=null;document.getElementById('mxcrt').value=null;document.getElementById('mncrt').value=null;document.getElementById('mxspd').value=null;document.getElementById('mnspd').value=null;}</script> 
+   </body>
+</html>
