@@ -131,7 +131,7 @@ function tostring($data)
 
 function tomonth($mnth)
 {
-	if ($mnth == 01) return January;
+	if ($mnth == 01) return 'January';
 	else
 	if ($mnth == 02) return 'February';
 	else
