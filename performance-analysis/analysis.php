@@ -183,9 +183,8 @@ function tomonth($mnth)
       <nav>
          <div class="nav-wrapper">
             <ul class="left hide-on-med-and-down">
-               <li class="active tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse New Data!"><a href="/performance-analysis/">Electrical Performance Analysis</a></li>
-			   <li> </li>
-               <li class="active tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse same CSV with different parameters!"><a onclick="goBack()">Re-Analyse</a></li>
+               <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse New Data!"><a href="/performance-analysis/">Electrical Performance Analysis</a></li>
+               <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse same CSV with different parameters!"><a onclick="goBack()">Re-Analyse</a></li>
             </ul>
             <ul id="slide-out" class="side-nav">
                <li><a href="/performance-analysis/">Analyse New Data</a></li>
