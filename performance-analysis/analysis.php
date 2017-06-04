@@ -59,7 +59,11 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 		}
 
 		// Checking Voltage
-
+		if ($data[2] == 0)
+		{
+			$v[$row] = 0;
+		}
+		else
 		if ($data[2] > $voltage_max)
 		{
 			$v[$row] = 3;
@@ -75,7 +79,11 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 		}
 
 		// Checking Current
-
+		if ($data[3] == 0)
+		{
+			$c[$row] = 0;
+		}
+		else
 		if ($data[3] > $current_max)
 		{
 			$c[$row] = 3;
@@ -91,7 +99,11 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 		}
 
 		// Checking Speed
-
+		if ($data[4] == 0)
+		{
+			$s[$row] = 0;
+		}
+		else
 		if ($data[4] > $speed_max)
 		{
 			$s[$row] = 3;
@@ -172,10 +184,12 @@ function tomonth($mnth)
          <div class="nav-wrapper">
             <ul class="left hide-on-med-and-down">
                <li class="active tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse New Data!"><a href="/performance-analysis/">Electrical Performance Analysis</a></li>
+			   <li> </li>
+               <li class="active tooltipped" data-position="bottom" data-delay="50" data-tooltip="Analyse same CSV with different parameters!"><a onclick="goBack()">Re-Analyse</a></li>
             </ul>
             <ul id="slide-out" class="side-nav">
                <li><a href="/performance-analysis/">Analyse New Data</a></li>
-
+               <li><a onclick="goBack()">Re-Analyse with different parameters</a></li>
             </ul>
             <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation fontsize">Menu</i></a> 
          </div>
@@ -347,6 +361,12 @@ several motors helps in improvising them to the latest industrial demand.<o:p></
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
       <script>$(".button-collapse").sideNav();  $(document).ready(function(){
     $('ul.tabs').tabs();
-  });</script>
+  });
+  function goBack() {
+    window.history.back();
+}
+</script>
+  
+
    </body>
 </html>
