@@ -25,14 +25,14 @@
          <div class=row>
             <form id="myform" action="analysis.php" class="col s12" method="post">
                <div class=row>
-                  <div class="col input-field s6"><input id="mxtempr" name="mxtempr" type="text" value="45" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Temperature</label></div>
-                  <div class="col input-field s6"><input id="mntempr" name="mntempr" type="text" value="25" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Temperature</label></div>
-                  <div class="col input-field s6"><input id="mxvtg" name="mxvtg" type="text" value="1.5" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Voltage</label></div>
-                  <div class="col input-field s6"><input id="mnvtg" name="mnvtg" type="text" value="1.2" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Voltage</label></div>
-                  <div class="col input-field s6"><input id="mxcrt" name="mxcrt" type="text" value="200" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Current</label></div>
-                  <div class="col input-field s6"><input id="mncrt" name="mncrt" type="text" value="100" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Current</label></div>
-                  <div class="col input-field s6"><input id="mxspd" name="mxspd" type="text" value="1100" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Speed</label></div>
-                  <div class="col input-field s6"><input id="mnspd" name="mnspd" type="text" value="900" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Speed</label></div>
+                  <div class="col input-field s6"><input id="mxtempr" name="mxtempr" type="text" value="45" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Temperature (<?php echo $app_max_temp; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mntempr" name="mntempr" type="text" value="25" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Temperature (<?php echo $app_min_temp; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mxvtg" name="mxvtg" type="text" value="1.5" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Voltage (<?php echo $app_max_vtg; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mnvtg" name="mnvtg" type="text" value="1.2" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Voltage (<?php echo $app_min_vtg; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mxcrt" name="mxcrt" type="text" value="200" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Current (<?php echo $app_max_crt; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mncrt" name="mncrt" type="text" value="100" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Current (<?php echo $app_min_crt; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mxspd" name="mxspd" type="text" value="1100" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Max Speed (<?php echo $app_max_spd; ?>)</label></div>
+                  <div class="col input-field s6"><input id="mnspd" name="mnspd" type="text" value="900" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required ><label>Min Speed (<?php echo $app_min_spd; ?>)</label></div>
                </div>
                <button class="btn green waves-effect waves-red" type="submit">Analyse</button> 
             </form>
