@@ -3,9 +3,9 @@
 <head>
 <meta content="text/html; charset=UTF-8"http-equiv=Content-Type>
 <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"name=viewport>
-    <meta name="theme-color" content="#8e4585">
-<link href=/assets/logo.png rel="shortcut icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+<meta name="theme-color" content="#8e4585">
+<link href="/allassets/icon.png" rel="shortcut icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 <style media=screen,projection rel=stylesheet>nav{background-color:#8e4585}</style>
 <meta content="width=device-width,initial-scale=1"name=viewport>
 <title>Select DATA.CSV for Analysis</title>
