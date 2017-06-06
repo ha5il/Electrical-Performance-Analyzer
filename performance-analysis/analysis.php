@@ -42,81 +42,11 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 
 		$time[$row] = $data[0];
 
-		// Checking Temperature
-
-		if ($data[1] > $temperature_max)
-		{
-			$t[$row] = 3;
-		}
-		else
-		if ($data[1] < $temperature_min)
-		{
-			$t[$row] = 1;
-		}
-		else
-		{
-			$t[$row] = 2;
-		}
-
-		// Checking Voltage
-		if ($data[2] == 0)
-		{
-			$v[$row] = 0;
-		}
-		else
-		if ($data[2] > $voltage_max)
-		{
-			$v[$row] = 3;
-		}
-		else
-		if ($data[2] < $voltage_min)
-		{
-			$v[$row] = 1;
-		}
-		else
-		{
-			$v[$row] = 2;
-		}
-
-		// Checking Current
-		if ($data[3] == 0)
-		{
-			$c[$row] = 0;
-		}
-		else
-		if ($data[3] > $current_max)
-		{
-			$c[$row] = 3;
-		}
-		else
-		if ($data[3] < $current_min)
-		{
-			$c[$row] = 1;
-		}
-		else
-		{
-			$c[$row] = 2;
-		}
-
-		// Checking Speed
-		if ($data[4] == 0)
-		{
-			$s[$row] = 0;
-		}
-		else
-		if ($data[4] > $speed_max)
-		{
-			$s[$row] = 3;
-		}
-		else
-		if ($data[4] < $speed_min)
-		{
-			$s[$row] = 1;
-		}
-		else
-		{
-			$s[$row] = 2;
-		}
+		// Ferching error code of Temperature, Voltage, Current and Speed
+$t[$row] = single_error_code ($data[1], $temperature_max, $temperature_min);
+$v[$row] = single_error_code ($data[2], $voltage_max, $voltage_min);
+$c[$row] = single_error_code ($data[3], $current_max, $current_min);
+$s[$row] = single_error_code ($data[4], $speed_max, $speed_min);
 
 		if ($t[$row] . $v[$row] . $c[$row] . $s[$row] != 2222) // if all parameters aren't normal i.e., 2222
 		{
@@ -131,6 +61,14 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 	fclose($handle);
 }
 
+function single_error_code ($analyser, $maxi, $mini)
+{
+	if ($analyser == 0) return 0;
+	else if ($analyser > $maxi) return 3;
+	else if ($analyser < $mini) return 1;
+	else return 2;
+}
+
 function tostring($data)
 {
 	$splitted = array_map('intval', str_split($data, 2));
@@ -143,29 +81,29 @@ function tostring($data)
 
 function tomonth($mnth)
 {
-	if ($mnth == 01) return 'January';
+	if ($mnth == '01') return 'January';
 	else
-	if ($mnth == 02) return 'February';
+	if ($mnth == '02') return 'February';
 	else
-	if ($mnth == 03) return 'March';
+	if ($mnth == '03') return 'March';
 	else
-	if ($mnth == 04) return 'April';
+	if ($mnth == '04') return 'April';
 	else
-	if ($mnth == 05) return 'May';
+	if ($mnth == '05') return 'May';
 	else
-	if ($mnth == 06) return 'June';
+	if ($mnth == '06') return 'June';
 	else
-	if ($mnth == 07) return 'July';
+	if ($mnth == '07') return 'July';
 	else
-	if ($mnth == 8) return 'August';
+	if ($mnth == '08') return 'August';
 	else
-	if ($mnth == 9) return 'September';
+	if ($mnth == '09') return 'September';
 	else
-	if ($mnth == 10) return 'Octuber';
+	if ($mnth == '10') return 'Octuber';
 	else
-	if ($mnth == 11) return 'November';
+	if ($mnth == '11') return 'November';
 	else
-	if ($mnth == 12) return 'December';
+	if ($mnth == '12') return 'December';
 }
 ?>
  
@@ -173,7 +111,7 @@ function tomonth($mnth)
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" >
-	  <link href=/assets/logo.png rel="shortcut icon">
+	  <link href="/allassets/icon.png" rel="shortcut icon">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
       <style type="text/css" media="screen,projection" rel="stylesheet"> nav {background-color: #8E4585}</style>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
