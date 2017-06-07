@@ -16,11 +16,11 @@ function analysePerformance($dataCode)
 	else
 	{
 		 // Checking Temperature
-		 if ($eachCode[0] == 1) echo ('<br /> The motor might be running at colder environment, better performance will be seen once motor heats up.');
-    else if ($eachCode[0] == 3) echo ('<br /> The motor got overheat at this moment, please use better cooling system.');
+		 if ($eachCode[0] == 1) echo ('<br /> The motor might be running in a colder environment, better performance will be seen once it heats up.');
+    else if ($eachCode[0] == 3) echo ('<br /> The motor got overheat at this moment, please use a better cooling system.');
 	
 		 // Checking Voltage
-		 if ($eachCode[1] == 1) echo ('<br />There is dip in supply voltage, please use voltage booster unit.');
+		 if ($eachCode[1] == 1) echo ('<br />There is a dip in supply voltage, please use voltage booster unit.');
     else if ($eachCode[1] == 3) echo ('<br />The supply is higher than permitted limit, please use a stabilizer.');
 	
 		 // Checking Current and Speed
