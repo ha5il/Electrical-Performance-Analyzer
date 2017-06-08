@@ -12,3 +12,15 @@
 - LEDs
 - Buzzer
 - RTC Module
+
+**Processing is used to show real-time graph**
+Although we have installed Bluetooth module to pass real-time values to mobile. This can be extended by creating a native app to show a dynamic graph, but we are using processing for the same.
+
+**Firmata can be continued..**
+There are some standards to be followed to build Firmata based app and code on Arduino. Yes, this will make everything real-time including the dynamic graph feature.
+
+**Analysis by PHP**
+Server side code is written to analyse DATA.CSV file.
+
+**Analysis by Console Application**
+This app is written in C++ in Visual Basic 2017 for analysis of DATA.CSV.
