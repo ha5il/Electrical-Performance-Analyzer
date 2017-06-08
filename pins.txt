@@ -39,3 +39,15 @@ Purple    RX 0
 GND        GND
 SCL        A5
 SDA        A4
+
+==> Current<==
+
+5V     VCC
+GND    Ground
+OUT    A3
+
+== ^_^ ==
+Yellow LED 2
+Green LED  3
+Red LED	   4
+Buzzer     5
