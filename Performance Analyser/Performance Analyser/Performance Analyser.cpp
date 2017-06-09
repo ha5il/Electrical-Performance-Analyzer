@@ -24,8 +24,18 @@ int speed_error;
 int error_count = 0;
 int no_error_count = 0;
 
+float csv_tmax;
+float csv_tmin;
+float csv_vmax;
+float csv_vmin;
+float csv_cmax;
+float csv_cmin;
+float csv_smax;
+float csv_smin;
+
 void updateScreen(std::string);
 void getStandardPara(void);
+void getCSV_max_min(void);
 int single_error_code(float, float, float);
 void errorCodeClubber(long long int, int, int, int, int);
 void generate_brief_report(void);
@@ -37,12 +47,12 @@ void printAll_Fluctuations(void);
 int main()
 {
 	updateScreen("Welcome");
-	std::cout << endl << "Please drag and drop the error free DATA.CSV here: " << endl;
+	std::cout << endl << "Please drag and drop the error free DATA.CSV here: ";
 	std::cin >> path_to_file;
 	updateScreen("Welcome");
-	getStandardPara();				//it fetches Form data as in php
-	updateScreen("Welcome");
 
+	getCSV_max_min();
+	// Do Main calculation
 	io::CSVReader<5> in(path_to_file);
 	in.read_header(io::ignore_extra_column, "Time", "Temperature", "Voltage", "Current", "Speed");
 	long long int time_csv;
@@ -50,10 +60,12 @@ int main()
 	float voltage_csv;
 	float current_csv;
 	float speed_csv;
+	updateScreen("Welcome");
+	getStandardPara();				//it fetches Form data as in php
+	updateScreen("Welcome");
+	updateScreen("GettingErrorCode");
 	while (in.read_row(time_csv, temperature_csv, voltage_csv, current_csv, speed_csv))
 	{
-		updateScreen("Welcome");
-		updateScreen("GettingErrorCode");
 		// get error codes
 		temperature_error = single_error_code(temperature_csv, temperature_maximum, temperature_minimum);
 		voltage_error = single_error_code(voltage_csv, voltage_maximum, voltage_minimum);
@@ -77,12 +89,49 @@ int main()
 	return 0;
 }
 
-void getStandardPara(void) {
+void getCSV_max_min(void)
+{
+	io::CSVReader<5> inn(path_to_file);
+	inn.read_header(io::ignore_extra_column, "Time", "Temperature", "Voltage", "Current", "Speed");
+	long long int time;
+	float temperature;
+	float voltage;
+	float current;
+	float speed;
+	int one_time_count = 0;
+
+	updateScreen("Welcome");
+	updateScreen("GettingCSV_max_min");
+	while (inn.read_row(time, temperature, voltage, current, speed))
+	{
+		if (one_time_count = 1)
+		{
+			csv_tmax = csv_tmin = temperature;
+			csv_vmax = csv_vmin = voltage;
+			csv_cmax = csv_cmin = current;
+			csv_smax = csv_smin = speed;
+			one_time_count++;
+		}
+		else
+		{
+			if (temperature > csv_tmax) csv_tmax = temperature;
+			else if (temperature < csv_tmin) csv_tmin = temperature;
+			if (voltage > csv_vmax) csv_vmax = voltage;
+			else if (voltage < csv_vmin) csv_vmin = voltage;
+			if (current > csv_cmax) csv_cmax = current;
+			else if (current < csv_cmin) csv_cmin = current;
+			if (speed > csv_smax) csv_smax = speed;
+			else if (speed < csv_smin) csv_smin = speed;
+		}
+	}
+}
+void getStandardPara(void)
+{
 	float temp_swap;
-	std::cout << endl << "What are the maximum and minimum limits I should check for?" << endl << endl;
-	std::cout << setw(35) << left << "Maximum Temperature" << "-->    ";
+	std::cout << endl << "What are the maximum and minimum limits I should check for?\n(Bracket values are Maximum and Minimum value in CSV file)" << endl << endl;
+	std::cout << setw(25) << left << "Maximum Temperature" << "(" << csv_tmax << ")" << ": ";
 	std::cin >> temperature_maximum;
-	std::cout << setw(35) << "Minimum Temperature" << "-->    ";
+	std::cout << setw(25) << "Minimum Temperature" << "(" << csv_tmin << ")" << ": ";
 	std::cin >> temperature_minimum;
 	if (temperature_maximum < temperature_minimum)
 	{
@@ -91,9 +140,9 @@ void getStandardPara(void) {
 		temperature_minimum = temp_swap;
 		cout << blue << "I found value of Max Temperature greater than Min Temperature, so I swapped them..." << white << endl;
 	}
-	std::cout << endl << setw(35) << left << "Maximum Voltage" << "-->    ";
+	std::cout << endl << setw(25) << left << "Maximum Voltage" << "(" << csv_vmax << ")" << ": ";
 	std::cin >> voltage_maximum;
-	std::cout << setw(35) << left << "Minimum Voltage" << "-->    ";
+	std::cout << setw(25) << left << "Minimum Voltage" << "(" << csv_vmin << ")" << ": ";
 	std::cin >> voltage_minimum;
 	if (voltage_maximum < voltage_minimum)
 	{
@@ -102,9 +151,9 @@ void getStandardPara(void) {
 		voltage_minimum = temp_swap;
 		cout << blue << "I found value of Max Voltage greater than Min Voltage, so I swapped them..." << white << endl;
 	}
-	std::cout << endl << setw(35) << left << "Maximum Current" << "-->    ";
+	std::cout << endl << setw(25) << left << "Maximum Current" << "(" << csv_cmax << ")" << ": ";
 	std::cin >> current_maximum;
-	std::cout << setw(35) << left << "Minimum Current" << "-->    ";
+	std::cout << setw(25) << left << "Minimum Current" << "(" << csv_cmin << ")" << ": ";
 	std::cin >> current_minimum;
 	if (current_maximum < current_minimum)
 	{
@@ -113,9 +162,9 @@ void getStandardPara(void) {
 		current_minimum = temp_swap;
 		cout << blue << "I found value of Max Minimum greater than Min Minimum, so I swapped them..." << white << endl;
 	}
-	std::cout << endl << setw(35) << left << "Maximum Speed" << "-->    ";
+	std::cout << endl << setw(25) << left << "Maximum Speed" << "(" << csv_smax << ")" << ": ";
 	std::cin >> speed_maximum;
-	std::cout << setw(35) << left << "Minimum Speed" << "-->    ";
+	std::cout << setw(25) << left << "Minimum Speed" << "(" << csv_smin << ")" << ": ";
 	std::cin >> speed_minimum;
 	if (speed_maximum < speed_minimum)
 	{
@@ -144,9 +193,13 @@ void updateScreen(std::string region)
 
 	else if (region == "GettingErrorCode")
 	{
-		std::cout << endl << "Could you please wait until I read the csv file and generate report...";
+		std::cout << endl << "Could you please wait until I read the CSV file and generate report...";
 	}
 
+	else if (region == "GettingCSV_max_min")
+	{
+		std::cout << endl << "I am searching for maximum and minimum values in the CSV file...";
+	}
 }
 
 void errorCodeClubber(long long int timeStamp, int t, int v, int c, int s)
@@ -206,14 +259,15 @@ std::string tomonth(int mnth)
 	else if (mnth == 10) return " Octuber ";
 	else if (mnth == 11) return " November ";
 	else if (mnth == 12) return " December ";
+	else return " Something fissy! ";
 }
 
 void printAll_Fluctuations(void)
 {
-	std::cout << endl << yellow << "Below are all the fluctuations I found during analysis" << endl << "Error code is order of Temperature, Voltage, Curremt and speed where 3 meaning HIGH, 2 NORMAL, 1 LOW and 0 OFF" << white <<endl;
+	std::cout << endl << yellow << "Below are all the fluctuations I found during analysis" << endl << "Error code is order of Temperature, Voltage, Current and speed\nwhere,\n3 is HIGH\n2 is NORMAL\n1 is LOW\n0 is OFF" << white << endl;
 	std::cout << "---------------------------------------------" << endl;
 	std::cout << "| Error Code |           Timestamp          |" << endl;
-	std::cout  << "---------------------------------------------" << endl;
+	std::cout << "---------------------------------------------" << endl;
 
 	for (int i = 1; i <= error_count; i++)
 	{

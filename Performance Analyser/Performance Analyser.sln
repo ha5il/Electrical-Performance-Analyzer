@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Performance Analyser", "Performance Analyser\Performance Analyser.vcxproj", "{7E170A72-85D4-485A-8546-9890D3E11821}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup Performance Analyser", "Setup Performance Analyser\Setup Performance Analyser.vdproj", "{DA5A8ACD-9BE8-4055-863E-92098B7FAA06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{7E170A72-85D4-485A-8546-9890D3E11821}.Release|x64.Build.0 = Release|x64
 		{7E170A72-85D4-485A-8546-9890D3E11821}.Release|x86.ActiveCfg = Release|Win32
 		{7E170A72-85D4-485A-8546-9890D3E11821}.Release|x86.Build.0 = Release|Win32
+		{DA5A8ACD-9BE8-4055-863E-92098B7FAA06}.Debug|x64.ActiveCfg = Debug
+		{DA5A8ACD-9BE8-4055-863E-92098B7FAA06}.Debug|x86.ActiveCfg = Debug
+		{DA5A8ACD-9BE8-4055-863E-92098B7FAA06}.Release|x64.ActiveCfg = Release
+		{DA5A8ACD-9BE8-4055-863E-92098B7FAA06}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

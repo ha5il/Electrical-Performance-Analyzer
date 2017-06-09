@@ -1,51 +1,51 @@
-﻿  Performance Analyser.cpp
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(46): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+﻿  stdafx.cpp
+  Performance Analyser.cpp
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(77): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(85): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(116): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(181): note: see declaration of 'strerror'
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(138): warning C4244: 'return': conversion from 'std::streamsize' to 'int', possible loss of data
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(154): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(302): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(169): warning C4244: 'return': conversion from 'std::streamsize' to 'int', possible loss of data
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(185): warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(333): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(390): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(421): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(472): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(503): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(488): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(519): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1041): warning C4305: '=': truncation from 'double' to 'float'
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1070): note: see reference to function template instantiation 'void io::detail::parse_float<float>(const char *,T &)' being compiled
+c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1072): warning C4305: '=': truncation from 'double' to 'float'
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1101): note: see reference to function template instantiation 'void io::detail::parse_float<float>(const char *,T &)' being compiled
           with
           [
               T=float
           ]
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1200): note: see reference to function template instantiation 'void io::detail::parse<overflow_policy>(char *,float &)' being compiled
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1231): note: see reference to function template instantiation 'void io::detail::parse<overflow_policy>(char *,float &)' being compiled
           with
           [
               overflow_policy=io::throw_on_overflow
           ]
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1212): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<float,float,float,float>(::size_t,T &,float &,float &,float &)' being compiled
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1243): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<float,float,float,float>(::size_t,T &,float &,float &,float &)' being compiled
           with
           [
               T=float
           ]
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1212): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<float,float,float,float>(::size_t,T &,float &,float &,float &)' being compiled
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1243): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<float,float,float,float>(::size_t,T &,float &,float &,float &)' being compiled
           with
           [
               T=float
           ]
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1236): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<__int64,float,float,float,float>(::size_t,T &,float &,float &,float &,float &)' being compiled
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1267): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<__int64,float,float,float,float>(::size_t,T &,float &,float &,float &,float &)' being compiled
           with
           [
               T=__int64
           ]
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1236): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<__int64,float,float,float,float>(::size_t,T &,float &,float &,float &,float &)' being compiled
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(1267): note: see reference to function template instantiation 'void io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::parse_helper<__int64,float,float,float,float>(::size_t,T &,float &,float &,float &,float &)' being compiled
           with
           [
               T=__int64
           ]
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\performance analyser.cpp(53): note: see reference to function template instantiation 'bool io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<__int64,float,float,float,float>(__int64 &,float &,float &,float &,float &)' being compiled
-  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\performance analyser.cpp(53): note: see reference to function template instantiation 'bool io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<__int64,float,float,float,float>(__int64 &,float &,float &,float &,float &)' being compiled
-c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\performance analyser.cpp(209): warning C4715: 'tomonth': not all control paths return a value
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\performance analyser.cpp(67): note: see reference to function template instantiation 'bool io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<__int64,float,float,float,float>(__int64 &,float &,float &,float &,float &)' being compiled
+  c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\performance analyser.cpp(67): note: see reference to function template instantiation 'bool io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<__int64,float,float,float,float>(__int64 &,float &,float &,float &,float &)' being compiled
   Performance Analyser.vcxproj -> C:\Users\Hasil\Desktop\Electrical-Performance-Analyzer\Performance Analyser\Debug\Performance Analyser.exe
   Performance Analyser.vcxproj -> C:\Users\Hasil\Desktop\Electrical-Performance-Analyzer\Performance Analyser\Debug\Performance Analyser.pdb (Partial PDB)
