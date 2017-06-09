@@ -5,7 +5,7 @@
 #include "ConsoleColor.h"
 
 using namespace std;
-std::string all_error_time[1000];		// these two array contains
+long long int all_error_time[1000];		// these two array contains
 int all_error_codes[1000];				// error code and time of occurance
 
 std::string path_to_file;
@@ -27,29 +27,31 @@ int no_error_count = 0;
 void updateScreen(std::string);
 void getStandardPara(void);
 int single_error_code(float, float, float);
-void errorCodeClubber(std::string, int, int, int, int);
+void errorCodeClubber(long long int, int, int, int, int);
 void generate_brief_report(void);
 std::string analysePerformance(int);
-std::string toString(std::string);
+void printTimeStamp(long long int);
+std::string tomonth(int);
+void printAll_Fluctuations(void);
 
 int main()
 {
 	updateScreen("Welcome");
-/*	std::cout << endl << "Please drag and drop the DATA.CSV here from SD card: ";
+	std::cout << endl << "Please drag and drop the error free DATA.CSV here: " << endl;
 	std::cin >> path_to_file;
 	updateScreen("Welcome");
 	getStandardPara();				//it fetches Form data as in php
 	updateScreen("Welcome");
-	
+
 	io::CSVReader<5> in(path_to_file);
 	in.read_header(io::ignore_extra_column, "Time", "Temperature", "Voltage", "Current", "Speed");
-	std::string time_csv;
+	long long int time_csv;
 	float temperature_csv;
 	float voltage_csv;
 	float current_csv;
 	float speed_csv;
 	while (in.read_row(time_csv, temperature_csv, voltage_csv, current_csv, speed_csv))
-		{
+	{
 		updateScreen("Welcome");
 		updateScreen("GettingErrorCode");
 		// get error codes
@@ -59,32 +61,25 @@ int main()
 		speed_error = single_error_code(speed_csv, speed_maximum, speed_minimum);
 		// verify and store error codes
 		errorCodeClubber(time_csv, temperature_error, voltage_error, current_error, speed_error);
-	}*/
+	}
+	updateScreen("Welcome");
+	std::cout << endl << "I found " << yellow << no_error_count << white << " data inside the limits you gave me and " << red << error_count << white << " fluctuated." << endl;
 
-	errorCodeClubber("20170518124500", 2, 3, 2, 2);
-
-	std::cout << endl << "I found " << yellow << no_error_count << white << " clear data and " << red << error_count << white << " total fluctutions as per the limits you gave me." << endl;
-	
 	if (error_count > 0)
 	{
 		generate_brief_report();
-
+		printAll_Fluctuations();
 	}
-
-
-
-	//---------------------------------------------------------------------------------------------------------------------------
-
 	std::cout << endl << endl << endl << endl << endl << endl << endl << endl << green << setfill('-') << setw(25) << "-" << "End of Program" << setfill('-') << setw(25) << "-" << white << endl;
-	std::cout << "Press any key and hit Enter to exit...";
+	std::cout << "Press any key and hit Enter twice to exit...";
 	int any_key_to_exit;
 	std::cin >> any_key_to_exit;
-    return 0;
+	return 0;
 }
 
 void getStandardPara(void) {
 	float temp_swap;
-	std::cout << endl << "Please enter the maximum and minimum limits" << endl << endl;
+	std::cout << endl << "What are the maximum and minimum limits I should check for?" << endl << endl;
 	std::cout << setw(35) << left << "Maximum Temperature" << "-->    ";
 	std::cin >> temperature_maximum;
 	std::cout << setw(35) << "Minimum Temperature" << "-->    ";
@@ -149,17 +144,12 @@ void updateScreen(std::string region)
 
 	else if (region == "GettingErrorCode")
 	{
-		std::cout << endl << "I am busy on reading csv file and generating error codes...";
-
-	}
-	else if (region == "Analysing")
-	{
-		std::cout << "Please wait while I analyse and present report...";
+		std::cout << endl << "Could you please wait until I read the csv file and generate report...";
 	}
 
 }
 
-void errorCodeClubber(std::string timeStamp, int t, int v, int c, int s)
+void errorCodeClubber(long long int timeStamp, int t, int v, int c, int s)
 {
 	if (t == 2 && v == 2 && c == 2 && s == 2)
 	{
@@ -175,36 +165,66 @@ void errorCodeClubber(std::string timeStamp, int t, int v, int c, int s)
 
 void generate_brief_report(void)
 {
-	int i;
 	int last_error_code = 2222;			// 2222 isn't error, in such case this function will never be called
-	for (i = 1; i <= error_count; i++)
+
+	for (int i = 1; i <= error_count; i++)
 	{
-		if (all_error_codes[error_count] == last_error_code) continue;
-		std::cout << endl << blue << toString(all_error_time[error_count]) << white << endl;
-		std::cout << analysePerformance(all_error_codes[error_count]);
-		last_error_code = all_error_codes[error_count];
+		if (all_error_codes[i] == last_error_code) continue;
+		printTimeStamp(all_error_time[i]);
+		std::cout << analysePerformance(all_error_codes[i]);
+		last_error_code = all_error_codes[i];
 	}
 }
 
-std::string toString(std::string raw)
+void printTimeStamp(long long int raw)
 {
 	//Formmatting date and time
-	std::string result;
-	std::cout << endl << "Debug Start..." << endl;
-	std::cout << "RAW Data is " << raw << endl;
-	std::cout << "raw 1 and 2 are " << raw[1] << raw[2] << endl;
-	result = raw[1] + raw[2];
-	std::cout << "clubbed raw 1 and 2 is " << result << endl;
-
-	
-
-	std::cout << endl << "Debug End..." << endl;
-	return result;
+	int seconds = raw % 100;
+	raw = raw / 100;
+	int minutes = raw % 100;
+	raw = raw / 100;
+	int hours = raw % 100;
+	raw = raw / 100;
+	int date = raw % 100;
+	raw = raw / 100;
+	int month = raw % 100;
+	raw = raw / 100;
+	cout << endl << blue << date << tomonth(month) << raw << " at " << hours << ":" << minutes << ":" << seconds << white;
 }
 
+std::string tomonth(int mnth)
+{
+	if (mnth == 1) return " January ";
+	else if (mnth == 2) return " February ";
+	else if (mnth == 3) return " March ";
+	else if (mnth == 4) return " April ";
+	else if (mnth == 5) return " May ";
+	else if (mnth == 6) return " June ";
+	else if (mnth == 7) return " July ";
+	else if (mnth == 8) return " August ";
+	else if (mnth == 9) return " September ";
+	else if (mnth == 10) return " Octuber ";
+	else if (mnth == 11) return " November ";
+	else if (mnth == 12) return " December ";
+}
+
+void printAll_Fluctuations(void)
+{
+	std::cout << endl << yellow << "Below are all the fluctuations I found during analysis" << endl << "Error code is order of Temperature, Voltage, Curremt and speed where 3 meaning HIGH, 2 NORMAL, 1 LOW and 0 OFF" << white <<endl;
+	std::cout << "---------------------------------------------" << endl;
+	std::cout << "| Error Code |           Timestamp          |" << endl;
+	std::cout  << "---------------------------------------------" << endl;
+
+	for (int i = 1; i <= error_count; i++)
+	{
+		std::cout << "|    " << setw(8) << left << all_error_codes[i] << setw(5) << "|        " << all_error_time[i] << "        |" << endl;
+	}
+	std::cout << "---------------------------------------------" << endl;
+}
 
 std::string analysePerformance(int dataCode)
 {
+	std::string result = "\n";
 	int eachCode_s = dataCode % 10;
 	dataCode = dataCode / 10;
 	int eachCode_c = dataCode % 10;
@@ -214,19 +234,20 @@ std::string analysePerformance(int dataCode)
 	int eachCode_t = dataCode;
 
 	// Check if supply is given?
-	if (eachCode_v == 0) return ("Motor is turned off. We didnot find any supply voltage.");
+	if (eachCode_v == 0) result = result + "Motor is turned off. We didnot find any supply voltage.\n";
 	else
 	{
 		// Checking Temperature
-		if (eachCode_t == 1) return ("The motor might be running in a colder environment, better performance will be seen once it heats up.");
-		else if (eachCode_t == 3) return ("The motor got overheat at this moment, please use a better cooling system.");
+		if (eachCode_t == 1) result = result + "The motor might be running in a colder environment, better performance will be seen once it heats up.\n";
+		else if (eachCode_t == 3) result = result + "The motor got overheat at this moment, please use a better cooling system.\n";
 
 		// Checking Voltage
-		if (eachCode_v == 1) return("There is a dip in supply voltage, please use voltage booster unit.");
-		else if (eachCode_v == 3) return("The supply is higher than permitted limit, please use a stabilizer.");
+		if (eachCode_v == 1) result = result + "There is a dip in supply voltage, please use voltage booster unit.\n";
+		else if (eachCode_v == 3) result = result + "The supply is higher than permitted limit, please use a stabilizer.\n";
 
 		// Checking Current and Speed
-		if (eachCode_c == 3 && eachCode_s == 1) return("We found high current with low speed, probably due to overload or insufficient lubricant.");
-		else if (eachCode_c == 3 && eachCode_s == 0) return("We found high current with zero speed due to blocked rotor.");
+		if (eachCode_c == 3 && eachCode_s == 1) result = result + "We found high current with low speed, probably due to overload or insufficient lubricant.\n";
+		else if (eachCode_c == 3 && eachCode_s == 0) result = result + "We found high current with zero speed due to blocked rotor.\n";
 	}
+	return result;
 }
