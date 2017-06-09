@@ -25,7 +25,7 @@ function analysePerformance($dataCode)
 	
 		 // Checking Current and Speed
 		 if ($eachCode[2] == 3 && $eachCode[3] == 1) echo ('<br />We found high current with low speed, probably due to overload or insufficient lubricant.');
-	
+	else if ($eachCode[2] == 3 && $eachCode[3] == 0) echo ('<br />We found high current with zero speed due to blocked rotor.');
 	echo ('<br /><br />');
 	}
 }
