@@ -104,7 +104,7 @@ void getCSV_max_min(void)
 	updateScreen("GettingCSV_max_min");
 	while (inn.read_row(time, temperature, voltage, current, speed))
 	{
-		if (one_time_count = 1)
+		if (one_time_count == 0)
 		{
 			csv_tmax = csv_tmin = temperature;
 			csv_vmax = csv_vmin = voltage;

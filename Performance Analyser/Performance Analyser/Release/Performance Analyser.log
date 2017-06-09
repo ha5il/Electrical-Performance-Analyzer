@@ -1,5 +1,4 @@
-﻿  stdafx.cpp
-  Performance Analyser.cpp
+﻿  Performance Analyser.cpp
 c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(77): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.15063.0\ucrt\string.h(343): note: see declaration of 'strncpy'
 c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\performance analyser\csv.h(116): warning C4996: 'strerror': This function or variable may be unsafe. Consider using strerror_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
@@ -48,6 +47,8 @@ c:\users\hasil\desktop\electrical-performance-analyzer\performance analyser\perf
   Performance Analyser.cpp(67): note: see reference to function template instantiation 'bool io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<__int64,float,float,float,float>(__int64 &,float &,float &,float &,float &)' being compiled
   Performance Analyser.cpp(67): note: see reference to function template instantiation 'bool io::CSVReader<5,io::trim_chars<32,9>,io::no_quote_escape<44>,io::throw_on_overflow,io::no_comment>::read_row<__int64,float,float,float,float>(__int64 &,float &,float &,float &,float &)' being compiled
   Generating code
-  All 558 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  2 of 558 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    18 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Performance Analyser.vcxproj -> C:\Users\Hasil\Desktop\Electrical-Performance-Analyzer\Performance Analyser\Release\Performance Analyser.exe
