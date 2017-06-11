@@ -21,7 +21,7 @@ This is offline DATA.CSV analyser for [32 bit system](https://github.com/ha5il/E
 View the [Sample File](https://github.com/ha5il/Electrical-Performance-Analyzer/raw/master/Performance%20Analyser/SAMPLE.CSV) for the console app.
 
 ## Analyse Online
-Online analysis through PHP code is available [here.] (hasilpaudyal.com.np/performance-analysis/)
+Online analysis through PHP code is available [here.] (http://hasilpaudyal.com.np/performance-analysis/)
 
 ## Main Features
 - Logging DC Motor parameters to SD card.
