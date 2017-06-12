@@ -40,7 +40,7 @@ Current we are able to draw a real-time graph for any one parameter.
 ## Future Developments
 
 ### Firmata can be continued...
-There are some standards to be followed to build Firmata based app and code on Arduino. Yes, this will make everything real-time including the dynamic graph feature.
+There are some standards to be followed to build Firmata based app and code on Arduino. Yes, this will make everything real-time including the dynamic graph feature that can be directly viewed on any Bluetooth enabled device.
 
 ### Warning operator before instability
 As data is sent to server from n number of motors, whenever the same kind performance of issue is detected by Arduino which had created instability, the operator can be warned to not to go inside such zone.
