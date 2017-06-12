@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
    <head>
       <meta content="text/html; charset=UTF-8"http-equiv=Content-Type>
@@ -5,7 +6,7 @@
 	  <link href="/allassets/icon.png" rel="shortcut icon">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css" rel=stylesheet>
       <style media=screen,projection rel=stylesheet>nav{background-color:#8e4585}</style>
-      <meta content="width=device-width,initial-scale=1"name=viewport>
+	  <meta name="theme-color" content="#8e4585">
       <title>Enter Analysis Limits</title>
    </head>
    <body>
@@ -39,6 +40,8 @@
             <button class="btn blue waves-effect waves-green" onClick="loadDefault()">Reset to Default</button><button class="btn red waves-effect waves-yellow" onClick="eraseDefault()">Erase All</button> 
          </div>
       </div>
-      <script src=https://code.jquery.com/jquery-2.1.1.min.js></script> <script src=https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js></script> <script>$(".button-collapse").sideNav();$("#myform").submit(function(){if (parseFloat(document.getElementById("mxtempr").value) < parseFloat(document.getElementById("mntempr").value)){alert("Max Temperature has to be greater than Min Temperature"); return false;}if (parseFloat(document.getElementById("mxvtg").value) < parseFloat(document.getElementById("mnvtg").value)){alert("Max Voltage has to be greater than Min Voltage"); return false;}if (parseFloat(document.getElementById("mxcrt").value) < parseFloat(document.getElementById("mncrt").value)){alert("Max Current has to be greater than Min Current"); return false;}if (parseFloat(document.getElementById("mxspd").value) < parseFloat(document.getElementById("mnspd").value)){alert("Max Speed has to be greater than Min Speed"); return false;}else{return true;}});function loadDefault (){document.getElementById('mxtempr').value='45';document.getElementById('mntempr').value='25';document.getElementById('mxvtg').value='1.5';document.getElementById('mnvtg').value='1.2';document.getElementById('mxcrt').value='200';document.getElementById('mncrt').value='100';document.getElementById('mxspd').value='1100';document.getElementById('mnspd').value='900';}function eraseDefault (){document.getElementById('mxtempr').value=null;document.getElementById('mntempr').value=null;document.getElementById('mxvtg').value=null;document.getElementById('mnvtg').value=null;document.getElementById('mxcrt').value=null;document.getElementById('mncrt').value=null;document.getElementById('mxspd').value=null;document.getElementById('mnspd').value=null;}</script> 
+      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+	  <script src="./js/form_validator.js"></script> 
    </body>
 </html>
