@@ -9,29 +9,9 @@ long long int all_error_time[1000];		// these two array contains
 int all_error_codes[1000];				// error code and time of occurance
 
 std::string path_to_file;
-float temperature_maximum;
-float temperature_minimum;
-float voltage_maximum;
-float voltage_minimum;
-float current_maximum;
-float current_minimum;
-float speed_maximum;
-float speed_minimum;
-int temperature_error;
-int voltage_error;
-int current_error;
-int speed_error;
-int error_count = 0;
-int no_error_count = 0;
-
-float csv_tmax;
-float csv_tmin;
-float csv_vmax;
-float csv_vmin;
-float csv_cmax;
-float csv_cmin;
-float csv_smax;
-float csv_smin;
+float temperature_maximum, temperature_minimum, voltage_maximum, voltage_minimum, current_maximum, current_minimum, speed_maximum, speed_minimum;
+int temperature_error, voltage_error, current_error, speed_error, error_count = 0, no_error_count = 0;
+float csv_tmax, csv_tmin, csv_vmax, csv_vmin, csv_cmax, csv_cmin, csv_smax, csv_smin;
 
 void updateScreen(std::string);
 void getStandardPara(void);
@@ -58,10 +38,7 @@ int main()
 	io::CSVReader<5> in(path_to_file);
 	in.read_header(io::ignore_extra_column, "Time", "Temperature", "Voltage", "Current", "Speed");
 	long long int time_csv;
-	float temperature_csv;
-	float voltage_csv;
-	float current_csv;
-	float speed_csv;
+	float temperature_csv, voltage_csv, current_csv, speed_csv;
 	updateScreen("Welcome");
 	getStandardPara();				//it fetches Form data as in PHP code written
 	updateScreen("Welcome");
@@ -85,6 +62,7 @@ int main()
 		printAll_Fluctuations();
 	}
 	std::cout << endl << endl << endl << endl << endl << endl << endl << endl << green << setfill('-') << setw(25) << "-" << "End of Program" << setfill('-') << setw(25) << "-" << white << endl;
+	//Ask whether to exit or not
 	std::string any_key_to_exit;
 	do
 	{
@@ -99,10 +77,7 @@ void getCSV_max_min(void)
 	io::CSVReader<5> inn(path_to_file);
 	inn.read_header(io::ignore_extra_column, "Time", "Temperature", "Voltage", "Current", "Speed");
 	long long int time;
-	float temperature;
-	float voltage;
-	float current;
-	float speed;
+	float temperature, voltage, current, speed;
 	bool one_time_count = 0;
 
 	updateScreen("Welcome");
