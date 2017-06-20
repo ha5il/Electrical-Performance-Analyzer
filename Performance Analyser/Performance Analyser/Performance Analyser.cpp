@@ -49,6 +49,8 @@ int main()
 	updateScreen("Welcome");
 	std::cout << endl << "Please drag and drop the error free DATA.CSV here: ";
 	std::cin >> path_to_file;
+	//Switch to fullscreen
+	::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
 	updateScreen("Welcome");
 
 	getCSV_max_min();
@@ -61,7 +63,7 @@ int main()
 	float current_csv;
 	float speed_csv;
 	updateScreen("Welcome");
-	getStandardPara();				//it fetches Form data as in php
+	getStandardPara();				//it fetches Form data as in PHP code written
 	updateScreen("Welcome");
 	updateScreen("GettingErrorCode");
 	while (in.read_row(time_csv, temperature_csv, voltage_csv, current_csv, speed_csv))
@@ -83,10 +85,13 @@ int main()
 		printAll_Fluctuations();
 	}
 	std::cout << endl << endl << endl << endl << endl << endl << endl << endl << green << setfill('-') << setw(25) << "-" << "End of Program" << setfill('-') << setw(25) << "-" << white << endl;
-	std::cout << "Press any key and hit Enter twice to exit...";
-	int any_key_to_exit;
-	std::cin >> any_key_to_exit;
-	return 0;
+	std::string any_key_to_exit;
+	do
+	{
+		std::cout << "Would you like to exit? ";
+		std::cin >> any_key_to_exit;
+		if (any_key_to_exit == "yes" || any_key_to_exit == "y") exit(0);
+	} while (1);
 }
 
 void getCSV_max_min(void)
@@ -98,7 +103,7 @@ void getCSV_max_min(void)
 	float voltage;
 	float current;
 	float speed;
-	int one_time_count = 0;
+	bool one_time_count = 0;
 
 	updateScreen("Welcome");
 	updateScreen("GettingCSV_max_min");
@@ -125,6 +130,7 @@ void getCSV_max_min(void)
 		}
 	}
 }
+
 void getStandardPara(void)
 {
 	float temp_swap;
@@ -264,7 +270,7 @@ std::string tomonth(int mnth)
 
 void printAll_Fluctuations(void)
 {
-	std::cout << endl << yellow << "Below are all the fluctuations I found during analysis" << endl << "Error code is order of Temperature, Voltage, Current and speed\nwhere,\n3 is HIGH\n2 is NORMAL\n1 is LOW\n0 is OFF" << white << endl;
+	std::cout << endl << yellow << "Below are all the fluctuations I found during analysis" << endl << "Error code is in the order of Temperature, Voltage, Current and speed\nwhere,\n3 is HIGH\n2 is NORMAL\n1 is LOW\n0 is OFF" << white << endl;
 	std::cout << "---------------------------------------------" << endl;
 	std::cout << "| Error Code |           Timestamp          |" << endl;
 	std::cout << "---------------------------------------------" << endl;
@@ -288,7 +294,7 @@ std::string analysePerformance(int dataCode)
 	int eachCode_t = dataCode;
 
 	// Check if supply is given?
-	if (eachCode_v == 0) result = result + "Motor is turned off. We didnot find any supply voltage.\n";
+	if (eachCode_v == 0) result = result + "Motor is turned off. We did not find any supply voltage.\n";
 	else
 	{
 		// Checking Temperature
