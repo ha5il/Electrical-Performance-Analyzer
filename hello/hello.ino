@@ -57,7 +57,7 @@ void setup()
   /* Checking if led and buzzer are
      workng well. Everytime you reset
      or restart this code runs once   */
-  for (i = 1; i < 3; i++)
+ /* for (i = 1; i < 3; i++)
   {
     digitalWrite(redLed, HIGH);
     delay(250);
@@ -71,7 +71,7 @@ void setup()
     digitalWrite(buzzer, HIGH);
     delay(25);
     digitalWrite(buzzer, LOW);
-  }
+  }*/
   initializeSD();
 
   /*CSV file should contain parameters on first line.
@@ -124,7 +124,7 @@ void loop()
   closeFile();
 
   //------------------------------------Voltage------------------------------------
-  value = analogRead(analogInput);
+  /*value = analogRead(analogInput);
   vout = (value * 5.0) / 1024.0;
   vin = vout / (R2 / (R1 + R2));
 
@@ -141,7 +141,7 @@ void loop()
   file.print(",");
   file.print(vin);
   closeFile();
-
+*/
   //------------------------------------Current------------------------------------
   RawValue = analogRead(analogIn);
   Voltage = (RawValue / 1024.0) * 5000;   // Gets you mV
@@ -166,7 +166,7 @@ void loop()
   /*As soosn as Arduino starts, a timer is also starts.
     millis() function returns milliseconds of this timer.
     This overflow (go back to zero), after approximately 50 days.*/
-  digitalWrite(yellowLed, HIGH);       //YellowLed ON
+  /*digitalWrite(yellowLed, HIGH);       //YellowLed ON
   
   startTime = millis();                //Its Loop in time for break, will be replaced once out of loop
   while (digitalRead(proxyPin) == 0)  //Wait until Proximity sensor senses metatl
@@ -188,10 +188,10 @@ void loop()
 
   Serial.print("Speed (RPM)        :  ");
   rpm = (60000 / (elapsedTime - startTime));  //Unitary method: 1 rotation ----> x millisecond
-
+*/
   /* If motor doesn't rotate rpm is calculated as 6000
     // so Forcing speed to be 0. Anyway max speed cant be above 1500 or 2000 */
-  if (rpm > 5000 || rpm < 102) // You get RPM less than 102, when motor isn't rotating. This is due to break command which takes 600 ms to operate
+ /* if (rpm > 5000 || rpm < 102) // You get RPM less than 102, when motor isn't rotating. This is due to break command which takes 600 ms to operate
   {
     rpm = 0;
   }

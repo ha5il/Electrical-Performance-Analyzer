@@ -18,9 +18,6 @@ float R2 = 7500.0;             //Its actually an voltage divider circuit
 int value = 0;
 
 int analogIn = A3;             //Current sensor to Analog 3
-int mVperAmp = 185;            // use 100 for 20A Module and 66 for 30A Module
-int RawValue = 0;
-int ACSoffset = 2500;
 double Voltage = 0;
 double Amps = 0;
 
@@ -143,7 +140,7 @@ void loop()
     Serial.print(tm.Minute);
     Serial.print(':');
     Serial.print(tm.Second);
-   
+
     Serial.println();
 
   }
@@ -194,11 +191,11 @@ void loop()
   vout = (value * 5.0) / 1024.0;
   vin = vout / (R2 / (R1 + R2));
 
-  //Removing offset reading. We will be at least using 1.2V battery
-  if (vin < 0.5)
-  {
-    vin = 0;
-  }
+    //Removing offset reading. We will be at least using 1.2V battery
+    if (vin < 0.5)
+    {
+     vin = 0;
+    }
 
   Serial.print("Supply Voltage (V) :  ");
   Serial.println(vin);
@@ -209,17 +206,21 @@ void loop()
   closeFile();
 
   //------------------------------------Current------------------------------------
-  RawValue = analogRead(analogIn);
-  Voltage = (RawValue / 1024.0) * 5000;   // Gets you mV
-  Amps = ((Voltage - ACSoffset) / mVperAmp);
-  Amps = abs(Amps * 1000);                //Current in milli and always positive
-
-  //Forcing current to be 0 if voltage is 0.5 or less. If not internal offset current is seen
-  if (vin == 0)
+  // Voltage is Sensed 1000 Times for precision
+  for (int i = 0; i < 1000; i++)
   {
-    Amps = 0;
+    Voltage = (Voltage + (.0049 * analogRead(analogIn)));   // (5 V / 1024 = 0.0049) which converter Measured analog input voltage to 5 V Range
+    delay(1);
   }
-
+  Voltage = Voltage / 1000;
+  Amps = (Voltage - 2.5) / 0.185; // Sensed voltage is converter to current
+  Amps = abs(Amps) * 1000;
+  //Forcing current to be 0 if voltage is 0.5 or less. If not internal offset current is seen
+   if (vin == 0)
+    {
+     Amps = 0;
+    }
+  
   Serial.print("Current (mA)       :  ");
   Serial.println(Amps);
 
@@ -269,8 +270,9 @@ void loop()
   file.println(rpm);
   closeFile();
 
-  delay(1000);                               /*Wait 1 second before taking another reading
-                                               Decrease or Increase it as per the rate of readings desired*/
+  // delay(1000); Current Sensor takes 1 sec to measure current
+  /*Wait 1 second before taking another reading
+    Decrease or Increase it as per the rate of readings desired*/
 }
 
 /*------------------------------------------------------------------------------------------------------
