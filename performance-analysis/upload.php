@@ -70,15 +70,14 @@ if (($handle = fopen("DATA.CSV", "r")) !== FALSE)
 	while (($data = fgetcsv($handle, ",")) !== FALSE)
 		{
 		$num = count($data); // Counting the number of data and it has to be 5
-		if ($num == 5)
-			{
+		if ($num != 5 || $data[1] == 0 || $data[2] == 0 || $data[3] == 0 || $data[4] == 0) continue;
+		else	{
 			if ($data[0] != 'Time')
 				{
 				if ($initialized_min_max == 0)
 					{
 
 					// Finding max and min values as uploaded on CSV
-
 					$app_max_temp = $app_min_temp = $data[1];
 					$app_max_vtg = $app_min_vtg = $data[2];
 					$app_max_crt = $app_min_crt = $data[3];
