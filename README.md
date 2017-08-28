@@ -16,7 +16,7 @@
 
 ## Download the latest Release
 
-This is offline DATA.CSV analyser for [32 bit system](https://github.com/ha5il/Electrical-Performance-Analyzer/raw/master/Performance%20Analyser/Release/Performance%20Analyser.exe) and [64 bit System](https://github.com/ha5il/Electrical-Performance-Analyzer/raw/master/Performance%20Analyser/x64/Release/Performance%20Analyser.exe)
+This is offline DATA.CSV analyser for Windows [32 bit system](https://github.com/ha5il/Electrical-Performance-Analyzer/raw/master/Performance%20Analyser/Release/Performance%20Analyser.exe) and [64 bit System](https://github.com/ha5il/Electrical-Performance-Analyzer/raw/master/Performance%20Analyser/x64/Release/Performance%20Analyser.exe)
 
 View the [Sample File](https://github.com/ha5il/Electrical-Performance-Analyzer/raw/master/Performance%20Analyser/SAMPLE.CSV) for the console app.
 
@@ -32,7 +32,7 @@ Online analysis through PHP code is available [here.](http://hasilpaudyal.com.np
 Server side code is written to analyse DATA.CSV file.
 
 ### Analysis by Console Application
-This app is written in C++ in Visual Basic 2017 for analysis of DATA.CSV.
+This app is written in C/C++ in Visual Basic 2017 for analysis of DATA.CSV.
 
 ### Processing for real-time graph
 Current we are able to draw a real-time graph for any one parameter.
